@@ -1,3 +1,13 @@
+
+-------------- ALLOWED FUNCTIONS --------------
+• open, close, read, write,
+printf, malloc, free, perror,
+strerror, exit
+• All functions of the math
+library (-lm man man 3 math)
+• All functions of the MinilibX
+
+-------------- INSTRUCTIONS      --------------
 • You must use the miniLibX. Either the version that is available on the operating
 system, or from its sources. If you choose to work with the sources, you will
 need to apply the same rules for your libft as those written above in Common
