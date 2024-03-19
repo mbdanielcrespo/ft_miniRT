@@ -4,20 +4,32 @@ CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
 SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = build
+
+# COLORS #
+GREEN = "\033[0;32m"
+WHITE = "\033[0m"
+
+# LIBFT #
 LIBFT_DIR = libft
+LIBFT = libft/libft.a
+LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
+
+# MINILIBX #
+MLX_DIR = minilibx-linux 
 MLX = minilibx-linux/libmlx.a
-MLX_FLAGS = -Lminilibx-linux -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-INC_FLAGS = -I $(INC_DIR) -I minilibx-linux -I libft/inc
+MLX_FLAGS = -L$(MLX_DIR) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+
+INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc
 
 SRC_FILES = main.c
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
-OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 $(NAME) : $(MLX) $(LIBFT) $(OBJS)
 	@echo "Compiling $@"
-	@$(CC) $(CFLAGS) $(MLX_FLAGS) $(INC_FLAGS)
-	@echo "Done!"
+	@$(CC) $(OBJS) $(CFLAGS) $(MLX_FLAGS) $(LIBFT_FLAGS) $(INC_FLAGS) -o $@
+	@echo $(GREEN)"Done!"$(WHITE)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
@@ -25,16 +37,16 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
 
 $(LIBFT):
-	make -C libft
+	@make -C $(LIBFT_DIR)
 
 $(MLX):
-	make -C minilibx-linux
+	@make -C $(MLX_DIR)
 
 all: $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make -C libft clean
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -f $(NAME)

@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:29:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/17 21:43:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/19 18:23:44 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,25 @@
 	character(s)), followed by all specific information for each object in a strict
 	order such as:
 
-	A	0.2 			255,255,255			(Ambient lighting	Ratio				RGB Colors)
-	C	-50.0,0,20 		0,0,1 			70 	(Camera				XYZ of viewpoint	3d normalized vector	FOV)
-	L 	-40.0,50.0,0.0 	0.6 	10,0,255	(Light				XYZ coordinates 	Light brightness		RGB Colors)
+	A	0.2 			255,255,255							(Ambient lighting	Ratio				RGB Colors)
+	C	-50.0,0,20 		0,0,1 		70 						(Camera				XYZ of viewpoint	3d normalized vector	FOV)
+	L 	-40.0,50.0,0.0 	0.6 		10,0,255				(Light				XYZ coordinates 	Light brightness		RGB Colors)
 
-	sp	0.0,0.0,20.6 	12.6 	10,0,255	(Sphere				XYZ coordnates		sphere diameter			RGB Colors)
-	pl 0.0,0.0,-10.0 	0.0,1.0,0.0 0,0,225	(Plane				XYZ coordinates		3d normalized vector	RGB Colors)
-	cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255 (Cylinder	XYZ coordinates		3d normalized vector	diameter	height	RGB Colors)
+	sp	0.0,0.0,20.6	12.6 		10,0,255				(Sphere				XYZ coordnates		sphere diameter			RGB Colors)
+	pl	0.0,0.0,-10.0 	0.0,1.0,0.0	0,0,225					(Plane				XYZ coordinates		3d normalized vector	RGB Colors)
+	cy	50.0,0.0,20.6 	0.0,0.0,1.0 14.2	21.42 10,0,255 	(Cylinder	XYZ coordinates		3d normalized vector	diameter	height	RGB Colors)
 */
-
-
 
 #include <main.h>
 
-int main()
-{
-	printf("Hello world!\n");
-	char *a = "lol";
 
-	printf("%ld\n", ft_strlen(a));
+
+int main(int ac, char **av)
+{
+	init_data(av);
+	//	set	looping configurations
+	//	simulation
+	//	mlx_stuff
+	data_destroy();
+	return (0);
 }
