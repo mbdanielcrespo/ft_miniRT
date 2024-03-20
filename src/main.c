@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:29:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/19 18:23:44 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:36:10 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,17 @@
 
 #include <main.h>
 
-
-
 int main(int ac, char **av)
 {
-	init_data(av);
-	//	set	looping configurations
-	//	simulation
-	//	mlx_stuff
-	data_destroy();
+	if (ac == 2)
+	{
+		init_data(av);
+		//	set	looping configurations
+		//	simulation
+		//	mlx_stuff
+		data_destroy();
+	}
+	else
+		ft_error("Invalid number of arguments!");
 	return (0);
 }
