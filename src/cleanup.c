@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/19 16:33:53 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:29:38 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	data_destroy(void)
 {
-	printf("Data destroyed!");
+	printf("Data destroyed!\n");
 }

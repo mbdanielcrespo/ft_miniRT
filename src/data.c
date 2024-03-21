@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/20 16:22:31 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:24:38 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_data(char **av)
 	t_data	*ptr;
 
 	ptr = data();
-	ptr->start = NULL;
 	ptr->camera = NULL;
 	ptr->ambient = NULL;
 	ptr->light = NULL;
@@ -53,13 +52,14 @@ void	fill_data(int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		while (line[0] == '\n')
+		while (line && line[0] == '\n')
 		{
 			free(line);
 			line = get_next_line(fd);
 		}
 		if (!line)
-			ft_error_destroy("Parsing error!", data_destroy, NULL);
+			ft_error_destroy("Parsing error!", data_destroy);
+		data()->current_line = line;
 		create_new_element(line);
 		free(line);
 		line = get_next_line(fd);

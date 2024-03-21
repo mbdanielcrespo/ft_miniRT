@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:48:59 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/20 16:49:23 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:25:02 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	triple_int(t_rgb *trpl_int, char *arg)
 {
 	char	**vals;
-
+	
 	vals = ft_split(arg, ',');
 	if (!vals[0] || !vals[1] || !vals[2])
 	{
@@ -33,7 +33,7 @@ int	triple_float(t_xyz *trpl_float, char *arg)
 {
 	char	**vals;
 
-	vals = ft_split(arg, '.');
+	vals = ft_split(arg, ',');
 	if (!vals[0] || !vals[1] || !vals[2])
 	{
 		ft_fsplit(vals);

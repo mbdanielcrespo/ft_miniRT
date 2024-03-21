@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/20 18:35:41 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:31:47 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,30 +110,45 @@ struct s_cylinder
 
 struct	s_data
 {
-	t_element	*start;
 	t_camera	*camera;
 	t_ambient	*ambient;
 	t_light		*light;
 	t_sphere	*sphere;
 	t_plane		*plane;
 	t_cylinder	*cylinder;
-	
+	char		*current_line;
 };
 
+// Data
 t_data	*data(void);
 void	init_data(char **av);
 void	open_and_read_file(char **av);
 void	fill_data(int fd);
-
-void	create_new_element(char *line);
-void	create_ambient_light(char *line, int n_args);
-
+// Validate
 int		triple_int(t_rgb *trpl_int, char *arg);
 int		triple_float(t_xyz *trpl_float, char *arg);
 int		is_valid_char(char ch);
 int		is_valid_arg(char *arg);
 int		is_valid_line(char *line, int n_args);
 
+// Create elements
+void	create_new_element(char *line);
+void	create_ambient_light(char *line, int n_args);
+void	create_camera(char *line, int n_args);
+void	create_light(char *line, int n_args);
+// Sphere
+void	create_sphere(char *line, int n_args);
+void	insert_sphere(t_sphere *sp);
+// Plane
+void	create_plane(char *line, int n_args);
+void	insert_plane(t_plane *pl);
+// Cylinder
+void	create_cylinder(char *line, int n_args);
+void	insert_cylinder(t_cylinder *cy);
+
+// Cleanup
+void	data_destroy(void);
+// Debug prints
 void	print_data(void);
 void	print_trpl_float(t_xyz *trpl_float);
 void	print_trpl_int(t_rgb *trpl_int);
@@ -144,6 +159,5 @@ void	print_spheres(t_sphere *sphere);
 void	print_planes(t_plane *plane);
 void	print_cylinders(t_cylinder *cylinder);
 
-void	data_destroy(void);
 
 #endif //MAIN_H
