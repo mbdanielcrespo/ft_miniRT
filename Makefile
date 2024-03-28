@@ -24,6 +24,7 @@ INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc
 SRC_FILES = main.c \
 			data.c validate.c mlx_setup.c \
 			parser.c sphere.c plane.c cylinder.c \
+			viewport.c \
 			cleanup1.c cleanup2.c \
 			debug.c 
 

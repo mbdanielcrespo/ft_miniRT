@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/28 12:55:36 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:59:12 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,34 @@ void	free_light(t_light *light)
 
 void destroy_mlx(void)
 {
-	t_data	*data_ptr;
+	t_data	*ptr;
 
-	data_ptr = data();
-	if (data_ptr->img_ptr)
-		mlx_destroy_image(data_ptr->mlx_ptr, data_ptr->img_ptr);
-	if (data_ptr->win_ptr)
-		mlx_destroy_window(data_ptr->mlx_ptr, data_ptr->win_ptr);
-	if (data_ptr->mlx_ptr)
-		mlx_destroy_display(data_ptr->mlx_ptr);
-	free(data_ptr->mlx_ptr);
+	ptr = data();
+	if (ptr->img_ptr)
+		mlx_destroy_image(ptr->mlx_ptr, ptr->img_ptr);
+	if (ptr->win_ptr)
+		mlx_destroy_window(ptr->mlx_ptr, ptr->win_ptr);
+	if (ptr->mlx_ptr)
+		mlx_destroy_display(ptr->mlx_ptr);
+	free(ptr->mlx_ptr);
 }
 
 void	data_destroy(void)
 {
-	t_data	*data_ptr;
+	t_data	*ptr;
 
-	data_ptr = data();
+	ptr = data();
 	destroy_mlx();
-	if (data_ptr)
+	if (ptr)
 	{
-		free_ambient(data_ptr->ambient);
-		free_camera(data_ptr->camera);
-		free_light(data_ptr->light);
-		free_spheres(data_ptr->sphere);
-		free_planes(data_ptr->plane);
-		free_cylinders(data_ptr->cylinder);
-		if (data_ptr->current_line)
-			free(data_ptr->current_line);
+		free_ambient(ptr->ambient);
+		free_camera(ptr->camera);
+		free_light(ptr->light);
+		free_spheres(ptr->sphere);
+		free_planes(ptr->plane);
+		free_cylinders(ptr->cylinder);
+		if (ptr->current_line)
+			free(ptr->current_line);
 	}
 	printf("Data destroyed!\n");
 }

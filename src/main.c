@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:29:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/28 12:17:49 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:59:23 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@
 
 int main(int ac, char **av)
 {
-	t_data	*data_ptr;
+	t_data	*ptr;
 
-	data_ptr = data();
+	ptr = data();
 	if (ac == 2)
 	{
 		init_data(av);
 		print_data();
 		mlx_setup();
 		//	simulation
-		mlx_loop(data_ptr->mlx_ptr);
+		mlx_loop(ptr->mlx_ptr);
 		data_destroy();
 	}
 	else
