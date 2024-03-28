@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:00:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/21 18:28:34 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:34:53 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	create_cylinder(char *line, int n_args)
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
 	cy = ft_safe_malloc(sizeof(t_cylinder), data_destroy, NULL);
+	cy->next = NULL;
 	cy->position = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	cy->norm_vect = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	cy->color = ft_safe_malloc(sizeof(t_rgb), data_destroy, NULL);

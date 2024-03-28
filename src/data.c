@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/21 17:24:38 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:18:41 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	open_and_read_file(char **av)
 {
 	int	fd;
 
-	fd = open(av[1], O_RDONLY);		// DONT FORGET TO CLOSE FD ON DATA DESTROY
+	fd = open(av[1], O_RDONLY);		// TODO: DONT FORGET TO CLOSE FD ON DATA DESTROY
 	if (fd < 0)
 		ft_error("Error opening the file!");
+									// TODO: CHECK IF FILE HAS .rt EXTENSION 
 	//printf("File opend\n");
 	fill_data(fd);
 }
@@ -62,6 +63,7 @@ void	fill_data(int fd)
 		data()->current_line = line;
 		create_new_element(line);
 		free(line);
+		data()->current_line = NULL;
 		line = get_next_line(fd);
 	}
 }

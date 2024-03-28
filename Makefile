@@ -17,11 +17,15 @@ LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
 # MINILIBX #
 MLX_DIR = minilibx-linux 
 MLX = minilibx-linux/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
 INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc
 
-SRC_FILES = main.c cleanup.c parser.c debug.c validate.c data.c sphere.c plane.c cylinder.c
+SRC_FILES = main.c \
+			data.c validate.c mlx_setup.c \
+			parser.c sphere.c plane.c cylinder.c \
+			cleanup1.c cleanup2.c \
+			debug.c 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

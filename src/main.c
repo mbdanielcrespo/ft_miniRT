@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:29:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/20 15:36:10 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:17:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,51 @@
 
 int main(int ac, char **av)
 {
+	t_data	*data_ptr;
+
+	data_ptr = data();
 	if (ac == 2)
 	{
 		init_data(av);
-		//	set	looping configurations
+		print_data();
+		mlx_setup();
 		//	simulation
-		//	mlx_stuff
+		mlx_loop(data_ptr->mlx_ptr);
 		data_destroy();
 	}
 	else
 		ft_error("Invalid number of arguments!");
 	return (0);
 }
+/*
+
+mlx_ptr = mlx_init();
+    width = 800;
+    height = 600;
+    win_ptr = mlx_new_window(mlx_ptr, width, height, "MiniLibX Window");
+
+    // Create a new image.
+    img_ptr = mlx_new_image(mlx_ptr, width, height);
+    img_data = mlx_get_data_addr(img_ptr, &bits_per_pixel, &size_line, &endian);
+
+    // Define a color (in this case, white).
+    color = 0xFFFFFF;
+
+    // Draw a simple line on the image.
+    // Note: You'd usually use a function to draw more complex shapes.
+    int x = 100;
+    for (int y = 100; y < 200; y++)
+    {
+        *(int*)(img_data + (x + y * width) * (bits_per_pixel / 8)) = color;
+        x++; // Simple way to make the line diagonal.
+    }
+
+    // Put the image on the window.
+    mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
+
+    // Enter the MLX loop to display the window.
+    mlx_loop(mlx_ptr);
+
+    return (0);
+
+*/

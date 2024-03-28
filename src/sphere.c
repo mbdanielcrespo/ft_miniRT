@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:58 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/21 18:19:36 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:35:46 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	create_sphere(char *line, int n_args)
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
 	sp = ft_safe_malloc(sizeof(t_sphere), data_destroy, NULL);
+	sp->next = NULL;
 	sp->position = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	sp->color = ft_safe_malloc(sizeof(t_rgb), data_destroy, NULL);
 	args = ft_split(line, ' ');

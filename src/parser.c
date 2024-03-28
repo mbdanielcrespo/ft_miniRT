@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/21 18:21:53 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:21:08 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	create_new_element(char *line)
 	if (!line[c])
 		ft_error_destroy("Parsing error!", data_destroy);
 	if (ft_strncmp(&line[c], "A", 1) == 0 && ft_isspace(line[c + 1]))
-		create_ambient_light(line, 3);
+		create_ambient(line, 3);
 	else if (ft_strncmp(&line[c], "C", 1) == 0 && ft_isspace(line[c + 1]))
 		create_camera(line, 4);
 	else if (ft_strncmp(&line[c], "L", 1) == 0 && ft_isspace(line[c + 1]))
@@ -40,7 +40,7 @@ void	create_new_element(char *line)
 	}
 }
 
-void	create_ambient_light(char *line, int n_args)
+void	create_ambient(char *line, int n_args)
 {
 	char		**args;
 	t_ambient	*A;

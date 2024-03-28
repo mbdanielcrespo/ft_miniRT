@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/21 18:31:47 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:33:44 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,38 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <libft.h>
+# include <mlx.h>
 
-# define RED     "\x1b[31m"
-# define GREEN   "\x1b[32m"
-# define BLUE    "\x1b[34m"
-# define L_RED   "\x1b[91m"
-# define L_GREEN "\x1b[92m"
-# define L_BLUE  "\x1b[94m"
-# define WHITE   "\x1b[97m"
+# define RED		"\x1b[31m"
+# define GREEN		"\x1b[32m"
+# define BLUE		"\x1b[34m"
+# define YELLOW		"\x1b[33m"
+# define PURPLE		"\x1b[35m"
+# define L_RED		"\x1b[91m"
+# define L_GREEN	"\x1b[92m"
+# define L_BLUE		"\x1b[94m"
+# define L_YELLOW	"\x1b[93m"
+# define L_PURPLE	"\x1b[95m"
+# define WHITE		"\x1b[97m"
+
+# define W_WIDTH	800
+# define W_HEIGHT	800
+
+# define K_ESC		65307
+# define K_UP		65362
+# define K_DOWN		65364
+# define K_LEFT		65361
+# define K_RIGHT	65363
+# define K_1		49
+# define K_2		50
+# define K_3		51
+# define K_4		52
+
  
 typedef struct s_xyz		t_xyz;
 typedef struct s_rgb		t_rgb;
 typedef struct s_element	t_element;
 typedef struct s_data		t_data;
-typedef	enum e_type			t_type;
 typedef struct s_camera		t_camera;
 typedef struct s_ambient	t_ambient;
 typedef struct s_light		t_light;
@@ -52,15 +70,6 @@ struct s_rgb
 	int	b;
 };
 
-enum	e_type
-{
-	AMBIENT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-};
 
 struct	s_ambient
 {
@@ -117,6 +126,12 @@ struct	s_data
 	t_plane		*plane;
 	t_cylinder	*cylinder;
 	char		*current_line;
+	
+	void		*mlx_ptr;
+	void		*win_ptr;
+	void		*img_ptr;
+	int			width;
+	int			height;
 };
 
 // Data
@@ -133,21 +148,25 @@ int		is_valid_line(char *line, int n_args);
 
 // Create elements
 void	create_new_element(char *line);
-void	create_ambient_light(char *line, int n_args);
+void	create_ambient(char *line, int n_args);
 void	create_camera(char *line, int n_args);
 void	create_light(char *line, int n_args);
-// Sphere
 void	create_sphere(char *line, int n_args);
 void	insert_sphere(t_sphere *sp);
-// Plane
 void	create_plane(char *line, int n_args);
 void	insert_plane(t_plane *pl);
-// Cylinder
 void	create_cylinder(char *line, int n_args);
 void	insert_cylinder(t_cylinder *cy);
 
 // Cleanup
+void	free_ambient(t_ambient *ambient);
+void	free_camera(t_camera *camera);
+void	free_light(t_light *light);
+void	free_spheres(t_sphere *sphere);
+void	free_planes(t_plane *plane);
+void	free_cylinders(t_cylinder *cylinder);
 void	data_destroy(void);
+
 // Debug prints
 void	print_data(void);
 void	print_trpl_float(t_xyz *trpl_float);
@@ -159,5 +178,7 @@ void	print_spheres(t_sphere *sphere);
 void	print_planes(t_plane *plane);
 void	print_cylinders(t_cylinder *cylinder);
 
+// MLX
+void	mlx_setup(void);
 
 #endif //MAIN_H
