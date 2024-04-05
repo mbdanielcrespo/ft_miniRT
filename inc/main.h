@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/31 04:42:28 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/05 18:20:38 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,11 @@ struct	s_data
 
 struct s_viewport
 {
-	double	view_ratio;
-	double	viewport_W;
-	double	viewport_H;
-	double	ndcX;
-	double	ndcY;
+	t_dlong	view_ratio;
+	t_dlong	viewport_W;
+	t_dlong	viewport_H;
+	t_dlong	ndcX;
+	t_dlong	ndcY;
 	t_xyz	camUp;
 	t_xyz	camRight;
 };
@@ -216,6 +216,7 @@ t_xyz		normalizeV(t_xyz v);
 t_xyz		addV(t_xyz v1, t_xyz v2);
 t_xyz		subtractV(t_xyz v1, t_xyz v2);
 t_xyz		multiplyV(t_xyz v, double scalar);
+double		multiplyVs(t_xyz v1, t_xyz v2);
 t_viewport	set_viewport(t_viewport vp);
 t_xyz		calc_pixel_dir(t_viewport vp, int x, int y);
 
