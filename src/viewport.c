@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/28 17:16:47 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:50:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ double	deg_to_rad(double deg)
 	return (deg * (PI / 180));
 }
 
-t_xyz	normalize(t_xyz v)
+t_xyz	normalizeV(t_xyz v)
 {
 	double	lenght;
 
@@ -28,7 +28,7 @@ t_xyz	normalize(t_xyz v)
 	return (v);
 }
 
-t_xyz	add(t_xyz v1, t_xyz v2)
+t_xyz	addV(t_xyz v1, t_xyz v2)
 {
 	t_xyz	ret;
 
@@ -38,7 +38,17 @@ t_xyz	add(t_xyz v1, t_xyz v2)
 	return (ret);
 }
 
-t_xyz	multiply(t_xyz v, double scalar)
+t_xyz	subtractV(t_xyz v1, t_xyz v2)
+{
+	t_xyz	ret;
+
+	ret.x = v1.x - v2.x;
+	ret.y = v1.y - v2.y;
+	ret.z = v1.z - v2.z;
+	return (ret);
+}
+
+t_xyz	multiplyV(t_xyz v, double scalar)
 {
 	t_xyz	ret;
 
@@ -72,9 +82,9 @@ t_xyz	calc_pixel_dir(t_viewport vp, int x, int y)
 	pixel_dir.x = vp.ndcX * vp.viewport_W;
 	pixel_dir.y = vp.ndcY * vp.viewport_H;
 	pixel_dir.z = 1;
-	pixel_dir = add(add(multiply(vp.camRight, pixel_dir.x), 
-					multiply(vp.camUp, pixel_dir.y)), 
-					multiply(*ptr->camera->norm_vect, pixel_dir.z));
+	pixel_dir = addV(addV(multiplyV(vp.camRight, pixel_dir.x), 
+					multiplyV(vp.camUp, pixel_dir.y)), 
+					multiplyV(*ptr->camera->norm_vect, pixel_dir.z));
 	return (pixel_dir);
 }
 
@@ -88,19 +98,24 @@ void	draw_viewport(t_data *dt)
 
 	vp = set_viewport(vp);
 	y = -1;
+	printf("Image status:\n");
 	while (++y < W_HEIGHT)
 	{
 		x = -1;
 		while (++x < W_WIDTH)
 		{
 			pixel_dir = calc_pixel_dir(vp, x, y);
-			pixel = (x * BPP / 8) + (y * LINE_SIZE);
-        	dt->img_data[pixel + 0] = 255;				// INIT IMG DATA TO NULL
-        	dt->img_data[pixel + 1] = 255;
-        	dt->img_data[pixel + 2] = 255;
-       	 	//if (BPP == 32) {
-            //	img_data[pixel + 3] = 0; // Alpha channel, if used
-        }
+			(void)pixel_dir;
+			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
+			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
+			if (intersect_sphere(*dt->camera->position, pixel_dir, dt->sphere))
+				dt->img.img_data[pixel + 0] = 0;
+			else
+				dt->img.img_data[pixel + 0] = 255;
+			dt->img.img_data[pixel + 1] = 255;
+			dt->img.img_data[pixel + 2] = 255;
+		}
 	}
+	printf("\n");
 	//setPixelColor(x, y, 0xFFFFFF);
 }

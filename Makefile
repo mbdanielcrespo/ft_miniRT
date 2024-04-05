@@ -26,6 +26,7 @@ SRC_FILES = main.c \
 			parser.c sphere.c plane.c cylinder.c \
 			viewport.c \
 			cleanup1.c cleanup2.c \
+			intersection.c \
 			debug.c 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))

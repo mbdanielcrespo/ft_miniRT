@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/28 16:59:12 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/29 20:53:22 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void destroy_mlx(void)
 	t_data	*ptr;
 
 	ptr = data();
-	if (ptr->img_ptr)
-		mlx_destroy_image(ptr->mlx_ptr, ptr->img_ptr);
+	if (ptr->img.img_ptr)
+		mlx_destroy_image(ptr->mlx_ptr, ptr->img.img_ptr);
 	if (ptr->win_ptr)
 		mlx_destroy_window(ptr->mlx_ptr, ptr->win_ptr);
 	if (ptr->mlx_ptr)

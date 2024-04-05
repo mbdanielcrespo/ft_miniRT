@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/28 17:09:02 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/03/31 04:42:28 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define L_PURPLE	"\x1b[95m"
 # define WHITE		"\x1b[97m"
 
-# define W_WIDTH	800
-# define W_HEIGHT	800
+# define W_WIDTH	400
+# define W_HEIGHT	400
 # define PI			3.14159265358979323846
 
 # define K_ESC		65307
@@ -63,7 +63,7 @@ typedef struct s_sphere		t_sphere;
 typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
 typedef struct s_viewport	t_viewport;
-
+typedef struct s_img		t_img;
 
 struct s_xyz
 {
@@ -126,6 +126,15 @@ struct s_cylinder
 	t_cylinder	*next;
 };
 
+struct s_img
+{
+	void			*img_ptr;
+	unsigned char	*img_data;
+	int				bpp;
+	int				line_size;
+	int				endian;
+};
+
 struct	s_data
 {
 	t_camera		*camera;
@@ -137,11 +146,12 @@ struct	s_data
 	char			*current_line;
 	void			*mlx_ptr;
 	void			*win_ptr;
-	void			*img_ptr;
-	unsigned char	*img_data;
-	int				width;
-	int				height;
+	t_img			img;
+	//int				width;
+	//int				height;
 };
+
+
 
 struct s_viewport
 {
@@ -202,11 +212,14 @@ void		print_cylinders(t_cylinder *cylinder);
 // VIEWPORT
 void		draw_viewport(t_data *dt);
 double		deg_to_rad(double deg);
-t_xyz		normalize(t_xyz v);
-t_xyz		add(t_xyz v1, t_xyz v2);
-t_xyz		multiply(t_xyz v, double scalar);
+t_xyz		normalizeV(t_xyz v);
+t_xyz		addV(t_xyz v1, t_xyz v2);
+t_xyz		subtractV(t_xyz v1, t_xyz v2);
+t_xyz		multiplyV(t_xyz v, double scalar);
 t_viewport	set_viewport(t_viewport vp);
 t_xyz		calc_pixel_dir(t_viewport vp, int x, int y);
+
+int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp);
 
 // MLX
 int			key_press(int keycode);
