@@ -6,103 +6,84 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/05 21:21:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/08 00:54:44 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-double	deg_to_rad(double deg)
-{
-	return (deg * (PI / 180));
-}
-
-t_xyz	normalizeV(t_xyz v)
-{
-	double	lenght;
-
-	lenght = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	v.x /= lenght;
-	v.y /= lenght;
-	v.z /= lenght;
-	return (v);
-}
-
-t_xyz	addV(t_xyz v1, t_xyz v2)
-{
-	t_xyz	ret;
-
-	ret.x = v1.x + v2.x;
-	ret.y = v1.y + v2.y;
-	ret.z = v1.z + v2.z;
-	return (ret);
-}
-
-t_xyz	subtractV(t_xyz v1, t_xyz v2)
-{
-	t_xyz	ret;
-
-	ret.x = v1.x - v2.x;
-	ret.y = v1.y - v2.y;
-	ret.z = v1.z - v2.z;
-	return (ret);
-}
-
-t_xyz	multiplyV(t_xyz v, double scalar)
-{
-	t_xyz	ret;
-
-	ret.x = v.x * scalar;
-	ret.y = v.y * scalar;
-	ret.z = v.z * scalar;
-	return (ret);
-}
-
-double	multiplyVs(t_xyz v1, t_xyz v2)
-{
-	t_xyz	ret;
-	double	ret_val;
-
-	ret.x = v1.x * v2.x;
-	ret.y = v1.y * v2.y;
-	ret.z = v1.z * v2.z;
-	ret_val = ret.x + ret.y + ret.z;
-	return (ret_val);
-}
-
-t_viewport	set_viewport(t_viewport vp)
+t_viewport	set_viewport(t_viewport vp, int x, int y)
 {
 	t_data	*ptr;
 
 	ptr = data();
-	
-	triple_float(&vp.camUp, "0,1,0");
-	triple_float(&vp.camRight, "1,0,0");
+	(void)ptr;
+	if (x == 0 && y == 0)
+	{
+		vp.scale = tan(ptr->camera->field_of_view * 0.5 * (PI / 180.0));
+		triple_float(&vp.camUp, "0,1,0");
+		triple_float(&vp.camRight, "1,0,0");
+	}
+	vp.ndcX = (x + 0.5) / W_WIDTH * 2 - 1;
+	vp.ndcY = 1 - (y + 0.5) / W_HEIGHT * 2;
+	vp.view_ratio = (double)W_WIDTH / (double)W_HEIGHT;
+	vp.ndcX *= vp.view_ratio * vp.scale;
+	vp.ndcY *= vp.scale;
 	return (vp);
 }
 
-t_xyz	calc_pixel_dir(t_viewport vp, int x, int y)
+t_xyz	calc_pixel_dir(t_viewport vp)
 {
 	t_xyz	pixel_dir;
+	t_xyz	pix_x;
+	t_xyz	pix_y;
+	t_xyz	pix_z;
 	t_data	*ptr;
-	double scale;
-	//double	fov_adjustment = tan(vp.fov * 0.5 * (M_PI / 180.0));
 
 	ptr = data();
-	vp.view_ratio = (double)W_WIDTH / (double)W_HEIGHT;
-	vp.ndcX = (x + 0.5) / W_WIDTH * 2 - 1;
-	vp.ndcY = 1 - (y + 0.5) / W_HEIGHT * 2;
-	scale = tan(ptr->camera->field_of_view * 0.5 * (M_PI / 180.0));
-	vp.ndcX *= vp.view_ratio * scale;
-	vp.ndcY *= scale;
-	pixel_dir = addV(addV(multiplyV(vp.camRight, vp.ndcX), 
-						  multiplyV(vp.camUp, vp.ndcY)), 
-						  multiplyV(*ptr->camera->norm_vect, 1));
-	pixel_dir = normalizeV(pixel_dir);
-	printf("\nPixel dir:\n");
-	print_trpl_float(&pixel_dir);
+	pix_x = multiplyV(vp.camRight, vp.ndcX);
+	pix_y = multiplyV(vp.camUp, vp.ndcY);
+	pix_z = multiplyV(*ptr->camera->norm_vect, 1);
+	pixel_dir = addV(addV(pix_x, pix_y), pix_z);
 	return (pixel_dir);
 }
+
+t_rgb	base_color(t_data *dt, t_rgb starting_col)
+{
+	t_ambient	A;
+	t_rgb		base_color;
+	
+	
+	// TODO: ERROR IF AMBIENT IS >1
+	A = *dt->ambient;
+	base_color.r  = (starting_col.r * A.intensity * A.color->r) / 255;
+	base_color.g  = (starting_col.g * A.intensity * A.color->g) / 255;
+	base_color.b  = (starting_col.b * A.intensity * A.color->b) / 255;
+	// Take in consideration color value for ambient light ***
+	//printf("Calculated base color:\n");
+	//print_trpl_int(base_color);
+	return (base_color);
+}
+
+/*
+t_rgb	lit_color(t_data *dt, t_rgb base_col)
+{
+	t_light	L;
+	t_rgb	lit_color;
+
+	L = dt->light;
+	
+}*/
+
+
+void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
+{
+	// Calculate AMBIENT LIGHT (base color) = intensity * initial color 
+	// Calculate DIFUSE LIGHT (directional light from points)
+	// Calculate SPECULAR LIGHT (bright spots) = bright spots
+	object_intersections(dt, pixel_dir, pixel);
+}
+
 
 void	draw_viewport(t_data *dt)
 {
@@ -112,7 +93,6 @@ void	draw_viewport(t_data *dt)
 	t_viewport 	vp = {0};
 	t_xyz		pixel_dir;
 
-	vp = set_viewport(vp);
 	y = -1;
 	printf("Image status:\n");
 	while (++y < W_HEIGHT)
@@ -120,26 +100,14 @@ void	draw_viewport(t_data *dt)
 		x = -1;
 		while (++x < W_WIDTH)
 		{
-			pixel_dir = calc_pixel_dir(vp, x, y);
-			(void)pixel_dir;
+			vp = set_viewport(vp, x, y);
+			pixel_dir = calc_pixel_dir(vp);
 			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
-			//printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);			//Print image generation status
-			if (intersect_sphere(*dt->camera->position, pixel_dir, dt->sphere))
-			{
-				dt->img.img_data[pixel + 0] = 255;
-				dt->img.img_data[pixel + 1] = 0;
-				dt->img.img_data[pixel + 2] = 0;
-			}
-			else
-			{
-				dt->img.img_data[pixel + 0] = 255;
-				dt->img.img_data[pixel + 1] = 255;
-				dt->img.img_data[pixel + 2] = 255;
-			}
+			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);			//Print image generation status
+			draw_on_screen(dt, pixel_dir, pixel);
 		}
 	}
 	printf("\n");
-	//setPixelColor(x, y, 0xFFFFFF);
 }
 
 

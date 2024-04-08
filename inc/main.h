@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/05 18:20:38 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/08 00:53:27 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,9 @@ struct	s_data
 struct s_viewport
 {
 	t_dlong	view_ratio;
-	t_dlong	viewport_W;
-	t_dlong	viewport_H;
 	t_dlong	ndcX;
 	t_dlong	ndcY;
+	t_dlong	scale;
 	t_xyz	camUp;
 	t_xyz	camRight;
 };
@@ -170,12 +169,6 @@ t_data		*data(void);
 void		init_data(char **av);
 void		open_and_read_file(char **av);
 void		fill_data(int fd);
-// Validate
-int			triple_int(t_rgb *trpl_int, char *arg);
-int			triple_float(t_xyz *trpl_float, char *arg);
-int			is_valid_char(char ch);
-int			is_valid_arg(char *arg);
-int			is_valid_line(char *line, int n_args);
 
 // Create elements
 void		create_new_element(char *line);
@@ -209,22 +202,41 @@ void		print_spheres(t_sphere *sphere);
 void		print_planes(t_plane *plane);
 void		print_cylinders(t_cylinder *cylinder);
 
-// VIEWPORT
+// Viewport
+t_viewport	set_viewport(t_viewport vp, int x, int y);
+t_xyz		calc_pixel_dir(t_viewport vp);
+
+t_rgb		base_color(t_data *dt, t_rgb starting_col);
+
+void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
+
+// Intersections
+void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
+int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
+
+
+///////////// UTILS /////////////
+// Validate
+int			triple_int(t_rgb *trpl_int, char *arg);
+int			triple_float(t_xyz *trpl_float, char *arg);
+int			is_valid_char(char ch);
+int			is_valid_arg(char *arg);
+int			is_valid_line(char *line, int n_args);
+
+// mlx setup
+int			key_press(int keycode);
+int 		close_win(void);
+void		mlx_setup(void);
+
+// Utils
 double		deg_to_rad(double deg);
+
+// Vector math
 t_xyz		normalizeV(t_xyz v);
 t_xyz		addV(t_xyz v1, t_xyz v2);
 t_xyz		subtractV(t_xyz v1, t_xyz v2);
 t_xyz		multiplyV(t_xyz v, double scalar);
 double		multiplyVs(t_xyz v1, t_xyz v2);
-t_viewport	set_viewport(t_viewport vp);
-t_xyz		calc_pixel_dir(t_viewport vp, int x, int y);
-
-int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp);
-
-// MLX
-int			key_press(int keycode);
-int 		close_win(void);
-void		mlx_setup(void);
 
 #endif //MAIN_H

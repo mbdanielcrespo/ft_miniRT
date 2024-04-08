@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/05 20:24:07 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/07 19:35:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	print_data(void)
 	printf("}\n");
 }
 
-void	print_trpl_float_1(t_xyz *trpl_float)
+void	print_trpl_float(t_xyz *trpl_float)
 {
 	printf("    %sx: %.2Lf%s\n", L_GREEN, trpl_float->x, WHITE);
 	printf("    %sy: %.2Lf%s\n", L_GREEN, trpl_float->y, WHITE);
 	printf("    %sz: %.2Lf%s\n", L_GREEN, trpl_float->z, WHITE);
 }
 
-void	print_trpl_float(t_xyz *trpl_float)
+void	print_trpl_float_1(t_xyz *trpl_float)
 {
 	printf("x: %.2Lf\n", trpl_float->x);
 	printf("y: %.2Lf\n", trpl_float->y);
@@ -85,16 +85,20 @@ void	print_light(t_light *light)
 void	print_spheres(t_sphere *sphere)
 {
 	t_sphere	*tmp;
+	int			c;
 
+	c = 1;
 	tmp = sphere;
 	while (tmp)
 	{
+		printf("  %sSphere N%d:%s\n", L_YELLOW, c, WHITE);
 		printf("    %sdiameter:%s %.1Lf%s\n",L_BLUE,  L_GREEN, tmp->diameter, WHITE);
 		printf("    %s[position]%s\n", L_BLUE, WHITE);
 		print_trpl_float(tmp->position);
 		printf("    %s[color]%s\n", L_BLUE, WHITE);
 		print_trpl_int(tmp->color);
 		tmp = tmp->next;
+		c++;
 	}
 }
 
