@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:07:49 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:11:35 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void		draw_viewport(t_data *dt);
 
 // Intersections
 void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
-int			intersect_palne(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+int			intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
 
 

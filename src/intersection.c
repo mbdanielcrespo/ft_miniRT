@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:09:42 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:12:37 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel)
 	t_xyz	*intersect_pt;	// MALLOC
 	
 	intersect_pt = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
-	if (intersect_shpere(*dt->camera->position, pixel_dir, dt->plane, intersect_pt))
+	if (intersect_sphere(*dt->camera->position, pixel_dir, dt->sphere, intersect_pt))
 	{
 		color = base_color(dt, *dt->sphere->color); // dt->obj->color
 		color = lit_color_sp(dt, color, intersect_pt, dt->sphere); // dt->obj->pos
