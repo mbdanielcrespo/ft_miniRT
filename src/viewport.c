@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/08 00:54:44 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:07:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,6 @@ t_xyz	calc_pixel_dir(t_viewport vp)
 	return (pixel_dir);
 }
 
-t_rgb	base_color(t_data *dt, t_rgb starting_col)
-{
-	t_ambient	A;
-	t_rgb		base_color;
-	
-	
-	// TODO: ERROR IF AMBIENT IS >1
-	A = *dt->ambient;
-	base_color.r  = (starting_col.r * A.intensity * A.color->r) / 255;
-	base_color.g  = (starting_col.g * A.intensity * A.color->g) / 255;
-	base_color.b  = (starting_col.b * A.intensity * A.color->b) / 255;
-	// Take in consideration color value for ambient light ***
-	//printf("Calculated base color:\n");
-	//print_trpl_int(base_color);
-	return (base_color);
-}
-
-/*
-t_rgb	lit_color(t_data *dt, t_rgb base_col)
-{
-	t_light	L;
-	t_rgb	lit_color;
-
-	L = dt->light;
-	
-}*/
-
-
-void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
-{
-	// Calculate AMBIENT LIGHT (base color) = intensity * initial color 
-	// Calculate DIFUSE LIGHT (directional light from points)
-	// Calculate SPECULAR LIGHT (bright spots) = bright spots
-	object_intersections(dt, pixel_dir, pixel);
-}
-
-
 void	draw_viewport(t_data *dt)
 {
 	int			x;
@@ -111,13 +74,10 @@ void	draw_viewport(t_data *dt)
 }
 
 
-/*
-
-I don't think the calculation of the pixel direction is being doing right, here is why, In the same case as before:
-
-Sphere pos 0,0,200 size 10
-Camera pos 0,0,0 normal vector 0,0,1
-
-the calculated pixel vector is always 0,0,1 meaning its going to render the vector in the same direction always, what I think is the right aproach to this case is to shoot a ray (pixel_vector)
-
-*/
+void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
+{
+	// Calculate AMBIENT LIGHT (base color) = intensity * initial color 
+	// Calculate DIFUSE LIGHT (directional light from points)
+	// Calculate SPECULAR LIGHT (bright spots) = bright spots
+	object_intersections(dt, pixel_dir, pixel);
+}
