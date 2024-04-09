@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:11:35 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 21:53:19 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void		print_cylinders(t_cylinder *cylinder);
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
 t_rgb		lit_color_sp(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_sphere *sp);
-t_rgb		lit_color_pl(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_plane *pl);
+t_rgb		lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *cy);
 t_rgb		base_color(t_data *dt, t_rgb starting_col);
 
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
@@ -215,10 +215,11 @@ void		draw_viewport(t_data *dt);
 
 // Intersections
 void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
-int			intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+double		intersect_plane_2(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+double 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_xyz plane_point, t_xyz plane_normal);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
 
-
+double		intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
 ///////////// UTILS /////////////
 // Validate
 int			triple_int(t_rgb *trpl_int, char *arg);

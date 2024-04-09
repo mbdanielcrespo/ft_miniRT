@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:12:37 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 23:29:58 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ void	interect_planes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 			min_dist = distance;
 		}
 		tmp = tmp->next;
-	}
-	
+	}	
 }
-*/
 
-/*
 void	intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 {
 	t_sphere	*tmp;
@@ -42,7 +39,7 @@ void	intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 	int			distance;
 
 	distance = 0;
-	min_dist = __INT_MAX__;
+	min_dist = INFINITY;
 	tmp = dt->sphere;
 	while (tmp)
 	{
@@ -57,9 +54,9 @@ void	intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 }*/
 
 /*
-	a = multiplyVs(pix_dir, pix_dir);
-	b = 2 * multiplyVs(oc, pix_dir);
-	c = multiplyVs(oc, oc) - pow(sp->diameter/2, 2);
+a = multiplyVs(pix_dir, pix_dir);
+b = 2 * multiplyVs(oc, pix_dir);
+c = multiplyVs(oc, oc) - pow(sp->diameter/2, 2);
 */
 int	intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt)
 {
@@ -79,11 +76,11 @@ int	intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt
 	return (1);	
 }
 
-int	intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt)
+double	intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt)
 {
 	double	dotND;
-	t_xyz	vecOP;
 	double	t;
+	t_xyz	vecOP;
 
 	dotND = multiplyVs(*pl->norm_vect, pix_dir);
 	if (fabs(dotND) < 1e-6)
@@ -93,8 +90,9 @@ int	intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt)
 	if (t < 0)
 		return (0);
 	*intersect_pt = addV(pos, multiplyV(pix_dir, t));
-	return (1);
+	return (t);
 }
+
 
 void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel)
 {
@@ -102,19 +100,19 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel)
 	t_xyz	*intersect_pt;	// MALLOC
 	
 	intersect_pt = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
-	if (intersect_sphere(*dt->camera->position, pixel_dir, dt->sphere, intersect_pt))
+	if (intersect_cylinder(*dt->camera->position, pixel_dir, dt->cylinder, intersect_pt))
 	{
-		color = base_color(dt, *dt->sphere->color); // dt->obj->color
-		color = lit_color_sp(dt, color, intersect_pt, dt->sphere); // dt->obj->pos
+		color = base_color(dt, *dt->cylinder->color); // dt->obj->color
+		color = lit_color_cy(dt, color, intersect_pt, dt->cylinder); // dt->obj->pos
 		dt->img.img_data[pixel + 0] = color.b;
 		dt->img.img_data[pixel + 1] = color.g;
 		dt->img.img_data[pixel + 2] = color.r;
 	}
 	else
 	{
-		dt->img.img_data[pixel + 0] = 255;
-		dt->img.img_data[pixel + 1] = 255;
-		dt->img.img_data[pixel + 2] = 255;
+		dt->img.img_data[pixel + 0] = 0;
+		dt->img.img_data[pixel + 1] = 0;
+		dt->img.img_data[pixel + 2] = 0;
 	}
 	free(intersect_pt);
 	// Intersect CYLINDERS

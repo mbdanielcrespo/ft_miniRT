@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:05:07 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:42:42 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_rgb	base_color(t_data *dt, t_rgb starting_col)
 	return (base_color);
 }
 
-t_rgb	lit_color_pl(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_plane *pl)
+t_rgb	lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *cy)
 {
 	t_light	*L;
 	t_rgb	lit_color;
@@ -38,7 +38,7 @@ t_rgb	lit_color_pl(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_plane *pl)
 	double dotNL, diffuse_intensity;
 
 	L = dt->light;
-	normal = normalizeV(subtractV(*intersect_pt, *pl->position));
+	normal = normalizeV(subtractV(*intersect_pt, *cy->position));
 	light_dir = normalizeV(subtractV(*L->position, *intersect_pt));
 	dotNL = multiplyVs(normalizeV(normal), light_dir);
 	dotNL = fmax(dotNL, 0);
