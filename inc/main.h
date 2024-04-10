@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 21:53:19 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:27:42 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,11 @@ void		draw_viewport(t_data *dt);
 
 // Intersections
 void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
-double		intersect_plane_2(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
-double 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_xyz plane_point, t_xyz plane_normal);
+int 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
 
-double		intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
+
+
 ///////////// UTILS /////////////
 // Validate
 int			triple_int(t_rgb *trpl_int, char *arg);
