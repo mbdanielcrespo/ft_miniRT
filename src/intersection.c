@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/11 11:55:54 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/11 22:54:51 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	solve_plane(t_xyz pos, t_xyz pix_dir, t_plane pl, t_xyz *intersect_pt)
 {
 	double denom;
 	double t;
-	//t_xyz ip;
 	t_xyz vecOP;
 	
 	denom = multiplyVs(*pl.norm_vect, pix_dir);
@@ -122,7 +121,6 @@ int	solve_plane(t_xyz pos, t_xyz pix_dir, t_plane pl, t_xyz *intersect_pt)
 		return (0);
 	vecOP = subtractV(*pl.position, pos);
 	t = multiplyVs(vecOP, *pl.norm_vect) / denom;
-	//printf("Denom: %f\nt: %f\n", denom, t);
 	if (t < 0)
 		return (0);
 	*intersect_pt = addV(pos, multiplyV(pix_dir, t));
@@ -144,8 +142,6 @@ int solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt
     t_xyz CO = subtractV(pos, *cy->position);
     t_xyz V = normalizeV(*cy->norm_vect);
     double r = cy->diameter/2;
-    //double h = cy->height;
-
     t_xyz D_perp = subtractV(pix_dir, multiplyV(V, multiplyVs(pix_dir, V)));
     t_xyz CO_perp = subtractV(CO, multiplyV(V, multiplyVs(CO, V)));
 
@@ -169,6 +165,20 @@ int solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt
     return 1;
 }
 
+int	within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt)
+{
+    double sphereRadius = sqrt(pow(cy->diameter/2, 2) + pow(cy->height / 2.0, 2));
+
+    // Calculate the vector from the center of the cylinder to the intersection point
+    t_xyz vectorFromCenter = subtractV(*intersect_pt, *cy->position);
+
+    // Calculate the distance of the point from the cylinder's center
+    double distanceFromCenter = sqrt(multiplyVs(vectorFromCenter, vectorFromCenter));
+
+    // Check if this distance is within the sphere's radius
+    return (distanceFromCenter <= sphereRadius) ? 1 : 0;
+}
+
 int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt)
 {
 	t_plane pl1;
@@ -188,7 +198,7 @@ int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersec
 		ret = 1;
 	if (solve_plane(pos, pix_dir, pl2, intersect_pt) && within_cylinder_radius(intersect_pt, cy, pl2.position))
 		ret = 1;
-	if (solve_cylinder(pos, pix_dir, cy, intersect_pt))	// && within_cylinder_height(intersect_pt, cy))
+	if (solve_cylinder(pos, pix_dir, cy, intersect_pt) && within_cylinder_tube(cy, intersect_pt))
 		ret = 1;
 	free(pl1.norm_vect);
 	free(pl1.position);
@@ -206,7 +216,7 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel)
 	if (intersect_cylinder(*dt->camera->position, pixel_dir, dt->cylinder, intersect_pt))
 	{
 		color = base_color(dt, *dt->cylinder->color); // dt->obj->color
-		//color = lit_color_cy(dt, color, intersect_pt, dt->cylinder); // dt->obj->pos
+		color = lit_color_cy(dt, color, intersect_pt, dt->cylinder); // dt->obj->pos
 		dt->img.img_data[pixel + 0] = color.b;
 		dt->img.img_data[pixel + 1] = color.g;
 		dt->img.img_data[pixel + 2] = color.r;
