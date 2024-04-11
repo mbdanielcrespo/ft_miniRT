@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/10 16:16:43 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:55:54 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,34 @@ int	within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy, t_xyz *cap_cente
 	return (0);
 }
 
-int	solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersection_pt)
+int solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt)
 {
-	
+    t_xyz CO = subtractV(pos, *cy->position);
+    t_xyz V = normalizeV(*cy->norm_vect);
+    double r = cy->diameter/2;
+    //double h = cy->height;
+
+    t_xyz D_perp = subtractV(pix_dir, multiplyV(V, multiplyVs(pix_dir, V)));
+    t_xyz CO_perp = subtractV(CO, multiplyV(V, multiplyVs(CO, V)));
+
+    double A = multiplyVs(D_perp, D_perp);
+    double B = 2 * multiplyVs(D_perp, CO_perp);
+    double C = multiplyVs(CO_perp, CO_perp) - pow(r, 2);
+
+    double discriminant = pow(B, 2) - 4 * A * C;
+    if (discriminant < 0)
+        return 0;
+    double sqrtDiscriminant = sqrt(discriminant);
+    double t0 = (-B - sqrtDiscriminant) / (2 * A);
+    double t1 = (-B + sqrtDiscriminant) / (2 * A);
+
+    if (t0 > t1) { double temp = t0; t0 = t1; t1 = temp; }
+
+    double t = (t0 >= 0) ? t0 : ((t1 >= 0) ? t1 : -1);
+    if (t < 0)
+        return 0;	
+    *intersect_pt = addV(pos, multiplyV(pix_dir, t));
+    return 1;
 }
 
 int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt)
@@ -163,8 +188,8 @@ int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersec
 		ret = 1;
 	if (solve_plane(pos, pix_dir, pl2, intersect_pt) && within_cylinder_radius(intersect_pt, cy, pl2.position))
 		ret = 1;
-	//if (solve_cylinder(pos, pix_dir, cy, intersect_pt))
-	//	ret = 1;
+	if (solve_cylinder(pos, pix_dir, cy, intersect_pt))	// && within_cylinder_height(intersect_pt, cy))
+		ret = 1;
 	free(pl1.norm_vect);
 	free(pl1.position);
 	free(pl2.norm_vect);
