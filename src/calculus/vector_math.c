@@ -6,13 +6,13 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:49:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/07 19:50:02 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:11:54 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-t_xyz	normalizeV(t_xyz v)
+t_xyz	normV(t_xyz v)
 {
 	double	lenght;
 
@@ -33,7 +33,7 @@ t_xyz	addV(t_xyz v1, t_xyz v2)
 	return (ret);
 }
 
-t_xyz	subtractV(t_xyz v1, t_xyz v2)
+t_xyz	subtrV(t_xyz v1, t_xyz v2)
 {
 	t_xyz	ret;
 
@@ -43,7 +43,7 @@ t_xyz	subtractV(t_xyz v1, t_xyz v2)
 	return (ret);
 }
 
-t_xyz	multiplyV(t_xyz v, double scalar)
+t_xyz	multV(t_xyz v, double scalar)
 {
 	t_xyz	ret;
 
@@ -53,7 +53,7 @@ t_xyz	multiplyV(t_xyz v, double scalar)
 	return (ret);
 }
 
-double	multiplyVs(t_xyz v1, t_xyz v2)
+double	dot(t_xyz v1, t_xyz v2)
 {
 	t_xyz	ret;
 	double	ret_val;

@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/10 11:27:42 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:10:38 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,8 @@ struct	s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_img			img;
-	//int				width;
-	//int				height;
+	int				first;
 };
-
-
 
 struct s_viewport
 {
@@ -163,7 +160,6 @@ struct s_viewport
 	t_xyz	camUp;
 	t_xyz	camRight;
 };
-
 
 // Data
 t_data		*data(void);
@@ -206,7 +202,7 @@ void		print_cylinders(t_cylinder *cylinder);
 // Viewport
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
-t_rgb		lit_color_sp(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_sphere *sp);
+t_rgb		lit_color(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_xyz *pos);
 t_rgb		lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *cy);
 t_rgb		base_color(t_data *dt, t_rgb starting_col);
 
@@ -215,10 +211,18 @@ void		draw_viewport(t_data *dt);
 
 // Intersections
 void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
-int 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+// sp intersections
+t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
-
-
+// pl intersections
+t_plane		*intersect_planes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
+int 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+// cy intersections
+int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy, t_xyz *cap_center);
+int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt);
+int			solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
+t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
+int			intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
 
 ///////////// UTILS /////////////
 // Validate
@@ -235,12 +239,13 @@ void		mlx_setup(void);
 
 // Utils
 double		deg_to_rad(double deg);
+double		distance(t_xyz p1, t_xyz p2);
 
 // Vector math
-t_xyz		normalizeV(t_xyz v);
+t_xyz		normV(t_xyz v);
 t_xyz		addV(t_xyz v1, t_xyz v2);
-t_xyz		subtractV(t_xyz v1, t_xyz v2);
-t_xyz		multiplyV(t_xyz v, double scalar);
-double		multiplyVs(t_xyz v1, t_xyz v2);
+t_xyz		subtrV(t_xyz v1, t_xyz v2);
+t_xyz		multV(t_xyz v, double scalar);
+double		dot(t_xyz v1, t_xyz v2);
 
 #endif //MAIN_H

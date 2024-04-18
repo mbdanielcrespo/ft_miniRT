@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 14:42:42 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:05:04 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_rgb	base_color(t_data *dt, t_rgb starting_col)
 	return (base_color);
 }
 
-t_rgb	lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *cy)
+t_rgb	lit_color(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_xyz *pos)
 {
 	t_light	*L;
 	t_rgb	lit_color;
@@ -38,32 +38,9 @@ t_rgb	lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *
 	double dotNL, diffuse_intensity;
 
 	L = dt->light;
-	normal = normalizeV(subtractV(*intersect_pt, *cy->position));
-	light_dir = normalizeV(subtractV(*L->position, *intersect_pt));
-	dotNL = multiplyVs(normalizeV(normal), light_dir);
-	dotNL = fmax(dotNL, 0);
-	diffuse_intensity = dotNL * L->brightness;
-	lit_color.r = (base_col.r + K_DIFFUSE * L->color->r * diffuse_intensity);
-	lit_color.g = (base_col.g + K_DIFFUSE * L->color->g * diffuse_intensity);
-	lit_color.b = (base_col.b + K_DIFFUSE * L->color->b * diffuse_intensity);
-	lit_color.r = fmin(fmax(lit_color.r, 0), 255);
-    lit_color.g = fmin(fmax(lit_color.g, 0), 255);
-    lit_color.b = fmin(fmax(lit_color.b, 0), 255);
-	return (lit_color);
-}
-
-t_rgb	lit_color_sp(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_sphere *sp)
-{
-	t_light	*L;
-	t_rgb	lit_color;
-	t_xyz	light_dir;
-	t_xyz	normal;
-	double dotNL, diffuse_intensity;
-
-	L = dt->light;
-	normal = normalizeV(subtractV(*intersect_pt, *sp->position));
-	light_dir = normalizeV(subtractV(*L->position, *intersect_pt));
-	dotNL = multiplyVs(normalizeV(normal), light_dir);
+	normal = normV(subtrV(*intersect_pt, *pos));
+	light_dir = normV(subtrV(*L->position, *intersect_pt));
+	dotNL = dot(normV(normal), light_dir);
 	dotNL = fmax(dotNL, 0);
 	diffuse_intensity = dotNL * L->brightness;
 	lit_color.r = (base_col.r + K_DIFFUSE * L->color->r * diffuse_intensity);
