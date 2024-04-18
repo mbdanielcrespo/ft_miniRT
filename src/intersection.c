@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/11 22:54:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/17 22:12:23 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,19 +165,46 @@ int solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt
     return 1;
 }
 
-int	within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt)
+/*int within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt)
 {
-    double sphereRadius = sqrt(pow(cy->diameter/2, 2) + pow(cy->height / 2.0, 2));
+    // Normalize the direction vector
+    t_xyz norm_dir = normalizeV(*(cy->norm_vect));
 
-    // Calculate the vector from the center of the cylinder to the intersection point
-    t_xyz vectorFromCenter = subtractV(*intersect_pt, *cy->position);
+    // Calculate the vector from the cylinder's center to the intersection point
+    t_xyz center_to_point = subtractV(*intersect_pt, *(cy->position));
 
-    // Calculate the distance of the point from the cylinder's center
-    double distanceFromCenter = sqrt(multiplyVs(vectorFromCenter, vectorFromCenter));
+    // Project this vector onto the cylinder's normalized direction
+    double proj_length = multiplyVs(center_to_point, norm_dir);
 
-    // Check if this distance is within the sphere's radius
-    return (distanceFromCenter <= sphereRadius) ? 1 : 0;
+    // Check if the projected length is within the half-height bounds of the cylinder
+    // Assuming the 'position' is the center of the cylinder
+    double half_height = cy->height / 2.0;
+    return (fabs(proj_length) <= half_height) ? 1 : 0;
+}*/
+
+int within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt)
+{
+    t_xyz norm_dir = normalizeV(*(cy->norm_vect));
+
+    // Calculate the vector from the cylinder's center to the intersection point
+    t_xyz center_to_point = subtractV(*intersect_pt, *(cy->position));
+
+    // Project this vector onto the cylinder's normalized direction
+    double proj_length = multiplyVs(center_to_point, norm_dir);
+
+    // Calculate deformation factors directly affecting the projected length
+    double deformation_factor = fabs((double)norm_dir.x) + fabs((double)norm_dir.y) + fabs((double)norm_dir.z);
+    if (deformation_factor < 1e-6) {
+        deformation_factor = 1;  // To handle cases where direction vector is almost zero
+    }
+
+    // Adjust the half-height by considering the deformation factor
+    double adjusted_half_height = (cy->height / 2.0) * deformation_factor;
+
+    // Check if the projected length is within the adjusted bounds of the cylinder
+    return (fabs(proj_length) <= adjusted_half_height) ? 1 : 0;
 }
+
 
 int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt)
 {
