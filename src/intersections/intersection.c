@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/18 15:12:54 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:55:30 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // calculate_color(intersect_pt, pos, color, type)
 // paint_pixel(int pixel, t_rgb color)
 
-t_rgb	calculate_color(t_rgb obj_color, t_xyz *ip, t_xyz *pos)
+t_rgb	calculate_color(t_rgb obj_color, t_xyz ip, t_xyz pos)
 {
 	t_data	*dt;
 	t_rgb	color;
@@ -65,30 +65,30 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel)
 	sp = intersect_shperes(dt, pixel_dir, intersect_pt);
 	if (sp)
 	{
-		dist = distance(*dt->camera->position, *intersect_pt);
+		dist = distance(dt->camera->position, *intersect_pt);
 		if (dist < min_dist)
 		{
-			color = calculate_color(*sp->color, intersect_pt, sp->position);
+			color = calculate_color(sp->color, *intersect_pt, sp->position);
 			paint_pixel(pixel, color, 1);
 		}
 	}
 	pl = intersect_planes(dt, pixel_dir, intersect_pt);
 	if (pl)
 	{
-		dist = distance(*dt->camera->position, *intersect_pt);
+		dist = distance(dt->camera->position, *intersect_pt);
 		if (dist < min_dist)
 		{
-			color = calculate_color(*pl->color, intersect_pt, pl->position);
+			color = calculate_color(pl->color, *intersect_pt, pl->position);
 			paint_pixel(pixel, color, 1);
 		}
 	}
 	cy = intersect_cylinders(dt, pixel_dir, intersect_pt);
 	if (cy)
 	{
-		dist = distance(*dt->camera->position, *intersect_pt);
+		dist = distance(dt->camera->position, *intersect_pt);
 		if (dist < min_dist)
 		{
-			color = calculate_color(*cy->color, intersect_pt, cy->position);
+			color = calculate_color(cy->color, *intersect_pt, cy->position);
 			paint_pixel(pixel, color, 1);
 		}
 	}

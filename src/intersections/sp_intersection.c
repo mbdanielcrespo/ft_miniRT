@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/18 15:05:39 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:14:12 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt
 	double	t;
 	double	discr;
 	
-	oc = subtrV(pos, *sp->position);
+	oc = subtrV(pos, sp->position);
 	discr = (2 * dot(oc, pix_dir) * 2 * dot(oc, pix_dir)) 
 			- 4 * dot(pix_dir, pix_dir) * (dot(oc, oc) 
 			- pow(sp->diameter/2, 2));
@@ -41,17 +41,17 @@ t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 	tmp = dt->sphere;
 	while (tmp)
 	{
-		if (intersect_sphere(*dt->camera->position, pix_dir, tmp, intersect_pt))
+		if (intersect_sphere(dt->camera->position, pix_dir, tmp, intersect_pt))
 		{
-			if (distance(*dt->camera->position, *intersect_pt) < min_dist)
+			if (distance(dt->camera->position, *intersect_pt) < min_dist)
 			{
-				min_dist = distance(*dt->camera->position, *intersect_pt);
+				min_dist = distance(dt->camera->position, *intersect_pt);
 				ret = tmp;
 			}
 		}
 		tmp = tmp->next;
 	}
 	if (ret)
-		intersect_sphere(*dt->camera->position, pix_dir, ret, intersect_pt);
+		intersect_sphere(dt->camera->position, pix_dir, ret, intersect_pt);
 	return (ret);
 }

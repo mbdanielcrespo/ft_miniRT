@@ -6,43 +6,48 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/29 20:53:22 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:06:15 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-void	free_ambient(t_ambient *ambient)
+void	free_spheres(t_sphere *sphere)
 {
-	if (ambient)
+	t_sphere	*tmp;
+	
+	tmp = sphere;
+	while (sphere)
 	{
-		if (ambient->color)
-			free(ambient->color);
-		free(ambient);
+		tmp = sphere;
+		sphere = sphere->next;
+		free(tmp);
 	}
 }
 
-void	free_camera(t_camera *camera)
+void	free_planes(t_plane *plane)
 {
-	if (camera)
+	t_plane	*tmp;
+	
+	tmp = plane;
+	while (plane)
 	{
-		if (camera->position)
-			free(camera->position);
-		if (camera->norm_vect)
-			free(camera->norm_vect);
-		free(camera);
+		tmp = plane;
+		plane = plane->next;
+		free(tmp);
 	}
 }
 
-void	free_light(t_light *light)
+void	free_cylinders(t_cylinder *cylinder)
 {
-	if (light)
+	t_cylinder	*tmp;
+	
+	tmp = cylinder;
+	while (cylinder)
 	{
-		if (light->position)
-			free(light->position);
-		if (light->color)
-			free(light->color);
-		free(light);
+		tmp = cylinder;
+		cylinder = cylinder->next;
+		free(tmp);
 	}
 }
 
@@ -68,9 +73,12 @@ void	data_destroy(void)
 	destroy_mlx();
 	if (ptr)
 	{
-		free_ambient(ptr->ambient);
-		free_camera(ptr->camera);
-		free_light(ptr->light);
+		if (ptr->ambient)
+			free(ptr->ambient);
+		if (ptr->camera)
+			free(ptr->camera);
+		if (ptr->light)
+			free(ptr->light);
 		free_spheres(ptr->sphere);
 		free_planes(ptr->plane);
 		free_cylinders(ptr->cylinder);

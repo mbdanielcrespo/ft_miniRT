@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/18 15:09:42 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:14:50 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt)
 	double	t;
 	t_xyz	vecOP;
 
-	dotND = dot(*pl->norm_vect, pix_dir);
+	dotND = dot(pl->norm_vect, pix_dir);
 	if (fabs(dotND) < 1e-6)
 		return (0);
-	vecOP = subtrV(*pl->position, pos);
-	t = dot(vecOP, *pl->norm_vect) / dotND;
+	vecOP = subtrV(pl->position, pos);
+	t = dot(vecOP, pl->norm_vect) / dotND;
 	if (t < 0)
 		return (0);
 	*intersect_pt = addV(pos, multV(pix_dir, t));
@@ -40,17 +40,17 @@ t_plane	*intersect_planes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt)
 	tmp = dt->plane;
 	while (tmp)
 	{
-		if (intersect_plane(*dt->camera->position, pix_dir, tmp, intersect_pt))
+		if (intersect_plane(dt->camera->position, pix_dir, tmp, intersect_pt))
 		{
-			if (distance(*dt->camera->position, *intersect_pt) < min_dist)
+			if (distance(dt->camera->position, *intersect_pt) < min_dist)
 			{
-				min_dist = distance(*dt->camera->position, *intersect_pt);
+				min_dist = distance(dt->camera->position, *intersect_pt);
 				ret = tmp;
 			}
 		}
 		tmp = tmp->next;
 	}
 	if (ret)
-		intersect_plane(*dt->camera->position, pix_dir, ret, intersect_pt);
+		intersect_plane(dt->camera->position, pix_dir, ret, intersect_pt);
 	return (ret);
 }

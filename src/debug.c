@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/09 11:02:58 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:57:46 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ void	print_data(void)
 	printf("}\n");
 }
 
-void	print_trpl_float_1(t_xyz *trpl_float)
+void	print_trpl_float_1(t_xyz trpl_float)
 {
-	printf("    %sx: %.2Lf%s\n", L_GREEN, trpl_float->x, WHITE);
-	printf("    %sy: %.2Lf%s\n", L_GREEN, trpl_float->y, WHITE);
-	printf("    %sz: %.2Lf%s\n", L_GREEN, trpl_float->z, WHITE);
+	printf("    %sx: %.2Lf%s\n", L_GREEN, trpl_float.x, WHITE);
+	printf("    %sy: %.2Lf%s\n", L_GREEN, trpl_float.y, WHITE);
+	printf("    %sz: %.2Lf%s\n", L_GREEN, trpl_float.z, WHITE);
 }
 
-void	print_trpl_float(t_xyz *trpl_float)
+void	print_trpl_float(t_xyz trpl_float)
 {
-	printf("x: %.2Lf\n", trpl_float->x);
-	printf("y: %.2Lf\n", trpl_float->y);
-	printf("z: %.2Lf\n", trpl_float->z);
+	printf("x: %.2Lf\n", trpl_float.x);
+	printf("y: %.2Lf\n", trpl_float.y);
+	printf("z: %.2Lf\n", trpl_float.z);
 }
 
-void	print_trpl_int(t_rgb *trpl_int)
+void	print_trpl_int(t_rgb trpl_int)
 {
-	printf("    %sr: %d%s\n", L_GREEN, trpl_int->r, WHITE);
-	printf("    %sb: %d%s\n", L_GREEN, trpl_int->b, WHITE);
-	printf("    %sg: %d%s\n", L_GREEN, trpl_int->g, WHITE);
+	printf("    %sr: %d%s\n", L_GREEN, trpl_int.r, WHITE);
+	printf("    %sb: %d%s\n", L_GREEN, trpl_int.b, WHITE);
+	printf("    %sg: %d%s\n", L_GREEN, trpl_int.g, WHITE);
 }
 
 void	print_ambient(t_ambient *ambient)

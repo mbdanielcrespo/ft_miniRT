@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/06 14:27:41 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:01:03 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	create_ambient(char *line, int n_args)
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
 	A = ft_safe_malloc(sizeof(t_ambient), data_destroy, NULL);
-	A->color = ft_safe_malloc(sizeof(t_rgb), data_destroy, NULL);
 	args = ft_split(line, ' ');
 	A->intensity = ft_atof(args[1]);
-	if (!triple_int(A->color, args[2]))
+	if (!triple_int(&A->color, args[2]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error, on args!", data_destroy);
@@ -72,12 +71,10 @@ void	create_camera(char *line, int n_args)
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, Invalid line!", data_destroy);
 	C = ft_safe_malloc(sizeof(t_camera), data_destroy, NULL);
-	C->norm_vect = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
-	C->position = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	args = ft_split(line, ' ');
 	C->field_of_view = ft_atof(args[3]);
-	if (!triple_float(C->position, args[1]) ||
-			!triple_float(C->norm_vect, args[2]))
+	if (!triple_float(&C->position, args[1]) ||
+			!triple_float(&C->norm_vect, args[2]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error, on args!", data_destroy);
@@ -97,12 +94,10 @@ void	create_light(char *line, int n_args)
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
 	L = ft_safe_malloc(sizeof(t_light), data_destroy, NULL);
-	L->color = ft_safe_malloc(sizeof(t_rgb), data_destroy, NULL);
-	L->position = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	args = ft_split(line, ' ');
 	L->brightness = ft_atof(args[2]);
-	if (!triple_float(L->position, args[1]) ||
-			!triple_int(L->color, args[3]))
+	if (!triple_float(&L->position, args[1]) ||
+			!triple_int(&L->color, args[3]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error on args!", data_destroy);

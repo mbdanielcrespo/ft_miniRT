@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/18 15:10:38 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:56:36 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,46 +84,46 @@ struct s_rgb
 struct	s_ambient
 {
 	t_dlong	intensity;
-	t_rgb	*color;
+	t_rgb	color;
 };
 
 struct	s_camera
 {
-	t_xyz		*position;
-	t_xyz		*norm_vect;
+	t_xyz		position;
+	t_xyz		norm_vect;
 	t_dlong		field_of_view;
 };
 
 struct	s_light
 {
-	t_xyz		*position;
+	t_xyz		position;
 	t_dlong		brightness;
-	t_rgb		*color;
+	t_rgb		color;
 };
 
 struct s_sphere
 {
-	t_xyz		*position;
+	t_xyz		position;
 	t_dlong		diameter;
-	t_rgb		*color;
+	t_rgb		color;
 	t_sphere	*next;
 };
 
 struct s_plane
 {
-	t_xyz		*position;
-	t_xyz		*norm_vect;
-	t_rgb		*color;
+	t_xyz		position;
+	t_xyz		norm_vect;
+	t_rgb		color;
 	t_plane		*next;
 };
 
 struct s_cylinder
 {
-	t_xyz		*position;
-	t_xyz		*norm_vect;
+	t_xyz		position;
+	t_xyz		norm_vect;
 	t_dlong		diameter;
 	t_dlong		height;
-	t_rgb		*color;
+	t_rgb		color;
 	t_cylinder	*next;
 };
 
@@ -190,8 +190,8 @@ void		data_destroy(void);
 
 // Debug prints
 void		print_data(void);
-void		print_trpl_float(t_xyz *trpl_float);
-void		print_trpl_int(t_rgb *trpl_int);
+void		print_trpl_float(t_xyz trpl_float);
+void		print_trpl_int(t_rgb trpl_int);
 void		print_ambient(t_ambient *ambient);
 void		print_camera(t_camera *cam);
 void		print_light(t_light *light);
@@ -202,8 +202,8 @@ void		print_cylinders(t_cylinder *cylinder);
 // Viewport
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
-t_rgb		lit_color(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_xyz *pos);
-t_rgb		lit_color_cy(t_data *dt, t_rgb base_col, t_xyz *intersect_pt, t_cylinder *cy);
+t_rgb		calculate_color(t_rgb obj_color, t_xyz ip, t_xyz pos);
+t_rgb		lit_color(t_data *dt, t_rgb base_col, t_xyz intersect_pt, t_xyz pos);
 t_rgb		base_color(t_data *dt, t_rgb starting_col);
 
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
@@ -218,7 +218,7 @@ int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_
 t_plane		*intersect_planes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
 int 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
 // cy intersections
-int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy, t_xyz *cap_center);
+int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy, t_xyz cap_center);
 int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt);
 int			solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
 t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
