@@ -26,7 +26,7 @@ SRC_FILES = main.c \
 			utils/validate.c utils/mlx_setup.c utils/utils.c \
 			parsing/data.c parsing/parser.c parsing/sphere.c parsing/plane.c parsing/cylinder.c \
 			viewport.c \
-			cleanup/cleanup1.c cleanup/cleanup2.c \
+			cleanup/cleanup1.c \
 			intersections/sp_intersection.c intersections/pl_intersection.c intersections/cy_intersection.c intersections/intersection.c\
 			debug.c 
 

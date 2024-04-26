@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:00:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:01:26 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:48:36 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	create_plane(char *line, int n_args)
 
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
-	pl = ft_safe_malloc(sizeof(t_sphere), data_destroy, NULL);
+	pl = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
 	pl->next = NULL;
 	args = ft_split(line, ' ');
 	if (!triple_float(&pl->position, args[1]) ||

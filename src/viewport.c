@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:02:30 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:36:28 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_xyz	calc_pixel_dir(t_viewport vp)
 	ptr = data();
 	pix_x = multV(vp.camRight, vp.ndcX);
 	pix_y = multV(vp.camUp, vp.ndcY);
-	pix_z = multV(ptr->camera->norm_vect, 1);
+	pix_z = ptr->camera->norm_vect;
 	pixel_dir = addV(addV(pix_x, pix_y), pix_z);
 	return (pixel_dir);
 }
@@ -76,8 +76,9 @@ void	draw_viewport(t_data *dt)
 
 void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
 {
-	// Calculate AMBIENT LIGHT (base color) = intensity * initial color 
-	// Calculate DIFUSE LIGHT (directional light from points)
-	// Calculate SPECULAR LIGHT (bright spots) = bright spots
-	object_intersections(dt, pixel_dir, pixel);
+	int	intersec;
+
+	intersec = 0;
+
+	object_intersections(dt, pixel_dir, pixel, intersec);
 }

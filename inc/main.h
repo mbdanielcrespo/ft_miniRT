@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 17:56:36 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:54:28 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
 typedef struct s_viewport	t_viewport;
 typedef struct s_img		t_img;
+typedef	enum e_type			t_type;
+
+enum	e_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+};
 
 struct s_xyz
 {
@@ -79,7 +87,6 @@ struct s_rgb
 	int	g;
 	int	b;
 };
-
 
 struct	s_ambient
 {
@@ -180,9 +187,6 @@ void		create_cylinder(char *line, int n_args);
 void		insert_cylinder(t_cylinder *cy);
 
 // Cleanup
-void		free_ambient(t_ambient *ambient);
-void		free_camera(t_camera *camera);
-void		free_light(t_light *light);
 void		free_spheres(t_sphere *sphere);
 void		free_planes(t_plane *plane);
 void		free_cylinders(t_cylinder *cylinder);
@@ -202,15 +206,16 @@ void		print_cylinders(t_cylinder *cylinder);
 // Viewport
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
-t_rgb		calculate_color(t_rgb obj_color, t_xyz ip, t_xyz pos);
-t_rgb		lit_color(t_data *dt, t_rgb base_col, t_xyz intersect_pt, t_xyz pos);
-t_rgb		base_color(t_data *dt, t_rgb starting_col);
+t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
+t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
+t_rgb		base_color(t_data *dt, void *obj, t_type type);
 
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
 
 // Intersections
-void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel);
+int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
+void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel, int intersec);
 // sp intersections
 t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
