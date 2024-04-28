@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/26 15:00:11 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 20:51:28 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ void	print_trpl_int(t_rgb trpl_int)
 
 void	print_ambient(t_ambient *ambient)
 {
-	printf("    %sintensity:%s %.1Lf%s\n", L_BLUE, L_GREEN, ambient->intensity, WHITE);
+	printf("    %sintensity:%s %.1Lf%s\n", L_BLUE, L_GREEN, 
+			ambient->intensity, WHITE);
 	printf("    %s[color]%s\n", L_BLUE, WHITE);
 	print_trpl_int(ambient->color);
 }
 
 void	print_camera(t_camera *cam)
 {
-	printf("    %sFOV:%s %.1Lf%s\n", L_BLUE, L_GREEN, cam->field_of_view, WHITE);
+	printf("    %sFOV:%s %.1Lf%s\n", L_BLUE, L_GREEN,
+			cam->field_of_view, WHITE);
 	printf("    %s[position]%s\n", L_BLUE, WHITE);
 	print_trpl_float(cam->position);
 	printf("    %s[normal vecotr]%s\n", L_BLUE, WHITE);
@@ -74,7 +76,8 @@ void	print_camera(t_camera *cam)
 }
 void	print_light(t_light *light)
 {
-	printf("    %sbrightness:%s %.1Lf%s\n", L_BLUE, L_GREEN, light->brightness, WHITE);
+	printf("    %sbrightness:%s %.1Lf%s\n", L_BLUE, L_GREEN,
+			light->brightness, WHITE);
 	printf("    %s[position]%s\n", L_BLUE, WHITE);
 	print_trpl_float(light->position);
 	printf("    %s[color]%s\n", L_BLUE, WHITE);
@@ -92,7 +95,8 @@ void	print_spheres(t_sphere *sphere)
 	while (tmp)
 	{
 		printf("  %sSphere N%d:%s\n", L_YELLOW, c, WHITE);
-		printf("    %sdiameter:%s %.1Lf%s\n",L_BLUE,  L_GREEN, tmp->diameter, WHITE);
+		printf("    %sdiameter:%s %.1Lf%s\n",L_BLUE,  L_GREEN,
+				tmp->diameter, WHITE);
 		printf("    %s[position]%s\n", L_BLUE, WHITE);
 		print_trpl_float(tmp->position);
 		printf("    %s[color]%s\n", L_BLUE, WHITE);
@@ -118,6 +122,7 @@ void	print_planes(t_plane *plane)
 		tmp = tmp->next;
 	}
 }
+
 void	print_cylinders(t_cylinder *cylinder)
 {
 	t_cylinder	*tmp;
@@ -125,8 +130,10 @@ void	print_cylinders(t_cylinder *cylinder)
 	tmp = cylinder;
 	while (tmp)
 	{
-		printf("    %sdiameter:%s %.1Lf%s\n",L_BLUE, L_GREEN, tmp->diameter, WHITE);
-		printf("    %sheight:%s %.1Lf%s\n",L_BLUE, L_GREEN, tmp->height, WHITE);
+		printf("    %sdiameter:%s %.1Lf%s\n",L_BLUE, L_GREEN,
+				tmp->diameter, WHITE);
+		printf("    %sheight:%s %.1Lf%s\n",L_BLUE, L_GREEN,
+				tmp->height, WHITE);
 		printf("    %s[position]%s\n", L_BLUE, WHITE);
 		print_trpl_float(tmp->position);
 		printf("    %s[normal vecotr]%s\n", L_BLUE, WHITE);

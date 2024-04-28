@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:48:59 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:00:00 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 21:30:05 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	triple_int(t_rgb *trpl_int, char *arg)
 {
 	char	**vals;
-	
+
 	vals = ft_split(arg, ',');
 	if (!vals[0] || !vals[1] || !vals[2])
 	{
@@ -50,7 +50,7 @@ int	is_valid_line(char *line, int n_args)
 {
 	int		c;
 	char	**args;
-	
+
 	c = 1;
 	args = ft_split(line, ' ');
 	while (args[c])
@@ -94,8 +94,8 @@ int	is_valid_arg(char *arg)
 
 int	is_valid_char(char ch)
 {
-	if (ft_isdigit(ch) || ch == '-' ||
-		ch == '.' || ch == ',')
+	if (ft_isdigit(ch) || ch == '-'
+		|| ch == '.' || ch == ',')
 		return (1);
 	return (0);
 }

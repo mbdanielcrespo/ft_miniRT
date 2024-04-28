@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/26 14:54:28 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 20:54:51 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@
 # define K_3		51
 # define K_4		52
 
-# define BPP2		32								// RGBA (with Alpha chanel)
-# define BPP		24								// RGB
-# define LINE_SIZE	(W_WIDTH / (BPP / 8))			// No padding assumed
-# define L_ENDIAN	0								// LSByte stored in the smallest memory address
-# define B_ENDIAN	1								// MSByte stored in the smallest memory address
- 
 typedef struct s_xyz		t_xyz;
 typedef struct s_rgb		t_rgb;
 typedef struct s_element	t_element;
@@ -65,7 +59,7 @@ typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
 typedef struct s_viewport	t_viewport;
 typedef struct s_img		t_img;
-typedef	enum e_type			t_type;
+typedef enum e_type			t_type;
 
 enum	e_type
 {
@@ -161,11 +155,11 @@ struct	s_data
 struct s_viewport
 {
 	t_dlong	view_ratio;
-	t_dlong	ndcX;
-	t_dlong	ndcY;
+	t_dlong	ndc_x;
+	t_dlong	ndc_y;
 	t_dlong	scale;
-	t_xyz	camUp;
-	t_xyz	camRight;
+	t_xyz	cam_up;
+	t_xyz	cam_right;
 };
 
 // Data
@@ -215,19 +209,27 @@ void		draw_viewport(t_data *dt);
 
 // Intersections
 int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
-void		object_intersections(t_data *dt, t_xyz pixel_dir, int pixel, int intersec);
+void		object_intersections(t_data *dt, t_xyz pixel_dir,
+				int pixel, int intersec);
 // sp intersections
 t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
-int			intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *intersect_pt);
+int			intersect_sphere(t_xyz pos, t_xyz pix_dir,
+				t_sphere *sp, t_xyz *intersect_pt);
 // pl intersections
-t_plane		*intersect_planes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
-int 		intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *intersect_pt);
+t_plane		*intersect_planes(t_data *dt, t_xyz pix_dir,
+				t_xyz *intersect_pt);
+int			intersect_plane(t_xyz pos, t_xyz pix_dir,
+				t_plane *pl, t_xyz *intersect_pt);
 // cy intersections
-int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy, t_xyz cap_center);
+int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy,
+				t_xyz cap_center);
 int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt);
-int			solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
-t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
-int			intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *intersect_pt);
+int			solve_cylinder(t_xyz pos, t_xyz pix_dir,
+				t_cylinder *cy, t_xyz *intersect_pt);
+t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir,
+				t_xyz *intersect_pt);
+int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
+				t_cylinder *cy, t_xyz *intersect_pt);
 
 ///////////// UTILS /////////////
 // Validate
@@ -239,7 +241,7 @@ int			is_valid_line(char *line, int n_args);
 
 // mlx setup
 int			key_press(int keycode);
-int 		close_win(void);
+int			close_win(void);
 void		mlx_setup(void);
 
 // Utils
@@ -247,10 +249,10 @@ double		deg_to_rad(double deg);
 double		distance(t_xyz p1, t_xyz p2);
 
 // Vector math
-t_xyz		normV(t_xyz v);
-t_xyz		addV(t_xyz v1, t_xyz v2);
-t_xyz		subtrV(t_xyz v1, t_xyz v2);
-t_xyz		multV(t_xyz v, double scalar);
+t_xyz		norm_v(t_xyz v);
+t_xyz		add_v(t_xyz v1, t_xyz v2);
+t_xyz		subtr_v(t_xyz v1, t_xyz v2);
+t_xyz		mult_v(t_xyz v, double scalar);
 double		dot(t_xyz v1, t_xyz v2);
 
 #endif //MAIN_H

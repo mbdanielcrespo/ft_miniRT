@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:58 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:01:41 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 22:24:24 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	create_sphere(char *line, int n_args)
 	sp->next = NULL;
 	args = ft_split(line, ' ');
 	sp->diameter = ft_atof(args[2]);
-	if (!triple_float(&sp->position, args[1]) ||
-			!triple_int(&sp->color, args[3]))
+	if (!triple_float(&sp->position, args[1])
+		|| !triple_int(&sp->color, args[3]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error on args!", data_destroy);

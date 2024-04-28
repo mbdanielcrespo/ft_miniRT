@@ -15,8 +15,8 @@ LIBFT = libft/libft.a
 LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
 
 # MINILIBX #
-MLX_DIR = minilibx-linux 
-MLX = minilibx-linux/libmlx.a
+MLX_DIR = .minilibx-linux 
+MLX = .minilibx-linux/libmlx.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
 INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc

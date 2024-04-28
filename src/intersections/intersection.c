@@ -6,13 +6,13 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/26 15:14:16 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 21:27:26 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-// calculate_color(intersect_pt, pos, color, type)
+// calculate_color(ip, pos, color, type)
 // paint_pixel(int pixel, t_rgb color)
 
 t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
@@ -30,7 +30,7 @@ t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
 void	paint_pixel(int pixel, t_rgb color, int color_flag)
 {
 	t_data	*dt;
-	
+
 	dt = data();
 	if (color_flag != 0)
 	{
@@ -65,29 +65,30 @@ int	update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec)
 	return (0);
 }
 
-void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel, int intersec)
+void	object_intersections(t_data *dt, t_xyz pixel_dir,
+								int pixel, int intersec)
 {
-	t_xyz	*intersect_pt;	// MALLOC
+	t_xyz	*ip;
 	t_rgb	color;
 	void	*obj;
 	double	min_dist;
-	
+
 	obj = NULL;
 	min_dist = INFINITY;
 	intersec = 0;
-	intersect_pt = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
-	obj = intersect_shperes(dt, pixel_dir, intersect_pt);
-	if (update_dist(obj, intersect_pt, &min_dist, &intersec))
-		color = calculate_color(*intersect_pt, obj, SPHERE);
-	obj = intersect_planes(dt, pixel_dir, intersect_pt);
-	if (update_dist(obj, intersect_pt, &min_dist, &intersec))
-		color = calculate_color(*intersect_pt, obj, PLANE);
-	obj = intersect_cylinders(dt, pixel_dir, intersect_pt);
-	if (update_dist(obj, intersect_pt, &min_dist, &intersec))
-		color = calculate_color(*intersect_pt, obj, CYLINDER);
+	ip = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
+	obj = intersect_shperes(dt, pixel_dir, ip);
+	if (update_dist(obj, ip, &min_dist, &intersec))
+		color = calculate_color(*ip, obj, SPHERE);
+	obj = intersect_planes(dt, pixel_dir, ip);
+	if (update_dist(obj, ip, &min_dist, &intersec))
+		color = calculate_color(*ip, obj, PLANE);
+	obj = intersect_cylinders(dt, pixel_dir, ip);
+	if (update_dist(obj, ip, &min_dist, &intersec))
+		color = calculate_color(*ip, obj, CYLINDER);
 	if (intersec != 0)
 		paint_pixel(pixel, color, 1);
 	else
 		paint_pixel(pixel, color, 0);
-	free(intersect_pt);
+	free(ip);
 }

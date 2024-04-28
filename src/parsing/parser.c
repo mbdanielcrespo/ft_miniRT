@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:01:03 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 22:33:05 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,66 +43,67 @@ void	create_new_element(char *line)
 void	create_ambient(char *line, int n_args)
 {
 	char		**args;
-	t_ambient	*A;
-	
+	t_ambient	*amb;
+
 	if (data()->ambient != NULL)
 		ft_error_destroy("Parsing error, light exists", data_destroy);
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
-	A = ft_safe_malloc(sizeof(t_ambient), data_destroy, NULL);
+	amb = ft_safe_malloc(sizeof(t_ambient), data_destroy, NULL);
 	args = ft_split(line, ' ');
-	A->intensity = ft_atof(args[1]);
-	if (!triple_int(&A->color, args[2]))
+	amb->intensity = ft_atof(args[1]);
+	if (!triple_int(&amb->color, args[2]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error, on args!", data_destroy);
 	}
 	ft_fsplit(args);
-	data()->ambient = A;
+	data()->ambient = amb;
 	printf("New ambient created\n");
 }
+
 void	create_camera(char *line, int n_args)
 {
 	char		**args;
-	t_camera	*C;
+	t_camera	*cam;
 
 	if (data()->camera != NULL)
 		ft_error_destroy("Parsing error, camera exists", data_destroy);
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, Invalid line!", data_destroy);
-	C = ft_safe_malloc(sizeof(t_camera), data_destroy, NULL);
+	cam = ft_safe_malloc(sizeof(t_camera), data_destroy, NULL);
 	args = ft_split(line, ' ');
-	C->field_of_view = ft_atof(args[3]);
-	if (!triple_float(&C->position, args[1]) ||
-			!triple_float(&C->norm_vect, args[2]))
+	cam->field_of_view = ft_atof(args[3]);
+	if (!triple_float(&cam->position, args[1])
+		|| !triple_float(&cam->norm_vect, args[2]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error, on args!", data_destroy);
 	}
 	ft_fsplit(args);
-	data()->camera = C;
+	data()->camera = cam;
 	printf("New camera created\n");
 }
 
 void	create_light(char *line, int n_args)
 {
 	char		**args;
-	t_light		*L;
+	t_light		*lig;
 
 	if (data()->light != NULL)
 		ft_error_destroy("Parsing error, light exists", data_destroy);
 	if (!is_valid_line(line, n_args))
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
-	L = ft_safe_malloc(sizeof(t_light), data_destroy, NULL);
+	lig = ft_safe_malloc(sizeof(t_light), data_destroy, NULL);
 	args = ft_split(line, ' ');
-	L->brightness = ft_atof(args[2]);
-	if (!triple_float(&L->position, args[1]) ||
-			!triple_int(&L->color, args[3]))
+	lig->brightness = ft_atof(args[2]);
+	if (!triple_float(&lig->position, args[1])
+		|| !triple_int(&lig->color, args[3]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error on args!", data_destroy);
 	}
 	ft_fsplit(args);
-	data()->light = L;
+	data()->light = lig;
 	printf("New light created\n");
 }

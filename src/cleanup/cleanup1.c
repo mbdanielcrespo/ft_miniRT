@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/25 16:06:15 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 22:29:55 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_spheres(t_sphere *sphere)
 {
 	t_sphere	*tmp;
-	
+
 	tmp = sphere;
 	while (sphere)
 	{
@@ -28,7 +28,7 @@ void	free_spheres(t_sphere *sphere)
 void	free_planes(t_plane *plane)
 {
 	t_plane	*tmp;
-	
+
 	tmp = plane;
 	while (plane)
 	{
@@ -41,7 +41,7 @@ void	free_planes(t_plane *plane)
 void	free_cylinders(t_cylinder *cylinder)
 {
 	t_cylinder	*tmp;
-	
+
 	tmp = cylinder;
 	while (cylinder)
 	{
@@ -51,7 +51,7 @@ void	free_cylinders(t_cylinder *cylinder)
 	}
 }
 
-void destroy_mlx(void)
+void	destroy_mlx(void)
 {
 	t_data	*ptr;
 

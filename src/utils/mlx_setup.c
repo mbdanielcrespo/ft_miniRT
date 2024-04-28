@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:10:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/03/29 20:56:30 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 22:26:27 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	key_press(int keycode)
 	{
 		data_destroy();
 		printf("%sESC button clicked%s\n", RED, WHITE);
-		exit(0); // Exit the program
+		exit(0);
 	}
 	return (0);
 }
@@ -41,10 +41,9 @@ void	mlx_setup(void)
 	dt->win_ptr = mlx_new_window(dt->mlx_ptr, W_HEIGHT, W_WIDTH, "miniRT");
 	dt->img.img_ptr = mlx_new_image(dt->mlx_ptr, W_HEIGHT, W_WIDTH);
 	dt->img.img_data = (unsigned char *)mlx_get_data_addr(dt->img.img_ptr,
-						&dt->img.bpp, &dt->img.line_size, &dt->img.endian);
+				&dt->img.bpp, &dt->img.line_size, &dt->img.endian);
 	draw_viewport(dt);
 	mlx_put_image_to_window(dt->mlx_ptr, dt->win_ptr, dt->img.img_ptr, 0, 0);
 	mlx_key_hook(dt->win_ptr, key_press, NULL);
-	mlx_hook(dt->win_ptr, 17, 1L<<17, close_win, NULL);
+	mlx_hook(dt->win_ptr, 17, 1L << 17, close_win, NULL);
 }
-

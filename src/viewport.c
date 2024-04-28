@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/26 12:36:28 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/28 20:54:51 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_viewport	set_viewport(t_viewport vp, int x, int y)
 	if (x == 0 && y == 0)
 	{
 		vp.scale = tan(ptr->camera->field_of_view * 0.5 * (PI / 180.0));
-		triple_float(&vp.camUp, "0,1,0");
-		triple_float(&vp.camRight, "1,0,0");
+		triple_float(&vp.cam_up, "0,1,0");
+		triple_float(&vp.cam_right, "1,0,0");
 	}
-	vp.ndcX = (x + 0.5) / W_WIDTH * 2 - 1;
-	vp.ndcY = 1 - (y + 0.5) / W_HEIGHT * 2;
+	vp.ndc_x = (x + 0.5) / W_WIDTH * 2 - 1;
+	vp.ndc_y = 1 - (y + 0.5) / W_HEIGHT * 2;
 	vp.view_ratio = (double)W_WIDTH / (double)W_HEIGHT;
-	vp.ndcX *= vp.view_ratio * vp.scale;
-	vp.ndcY *= vp.scale;
+	vp.ndc_x *= vp.view_ratio * vp.scale;
+	vp.ndc_y *= vp.scale;
 	return (vp);
 }
 
@@ -41,10 +41,10 @@ t_xyz	calc_pixel_dir(t_viewport vp)
 	t_data	*ptr;
 
 	ptr = data();
-	pix_x = multV(vp.camRight, vp.ndcX);
-	pix_y = multV(vp.camUp, vp.ndcY);
+	pix_x = mult_v(vp.cam_right, vp.ndc_x);
+	pix_y = mult_v(vp.cam_up, vp.ndc_y);
 	pix_z = ptr->camera->norm_vect;
-	pixel_dir = addV(addV(pix_x, pix_y), pix_z);
+	pixel_dir = add_v(add_v(pix_x, pix_y), pix_z);
 	return (pixel_dir);
 }
 
@@ -53,7 +53,7 @@ void	draw_viewport(t_data *dt)
 	int			x;
 	int			y;
 	int			pixel;
-	t_viewport 	vp = {0};
+	t_viewport	vp = {0};
 	t_xyz		pixel_dir;
 
 	y = -1;
@@ -66,19 +66,17 @@ void	draw_viewport(t_data *dt)
 			vp = set_viewport(vp, x, y);
 			pixel_dir = calc_pixel_dir(vp);
 			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
-			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);			//Print image generation status
+			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
 			draw_on_screen(dt, pixel_dir, pixel);
 		}
 	}
 	printf("\n");
 }
 
-
 void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
 {
 	int	intersec;
 
 	intersec = 0;
-
 	object_intersections(dt, pixel_dir, pixel, intersec);
 }
