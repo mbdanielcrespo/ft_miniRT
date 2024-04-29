@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 20:54:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:42:24 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	draw_viewport(t_data *dt)
 			vp = set_viewport(vp, x, y);
 			pixel_dir = calc_pixel_dir(vp);
 			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
-			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
+			//printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
 			draw_on_screen(dt, pixel_dir, pixel);
 		}
 	}

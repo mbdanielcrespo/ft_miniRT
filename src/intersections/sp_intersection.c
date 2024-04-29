@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 21:38:26 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/29 22:19:03 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,18 @@ t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 	if (ret)
 		intersect_sphere(dt->camera->position, pix_dir, ret, ip);
 	return (ret);
+}
+
+int	intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip)
+{
+	t_sphere	*tmp;
+
+	tmp = dt->sphere;
+	while (tmp)
+	{
+		if (intersect_sphere(dt->light->position, pix_dir, tmp, ip))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }
