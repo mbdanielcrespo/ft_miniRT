@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 20:54:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:35:43 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ struct	s_data
 	void			*win_ptr;
 	t_img			img;
 	int				first;
+	int				on_base;
 };
 
 struct s_viewport
@@ -201,9 +202,13 @@ void		print_cylinders(t_cylinder *cylinder);
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
 t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
+
 t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
 t_rgb		base_color(t_data *dt, void *obj, t_type type);
-
+t_rgb specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
+t_xyz reflect_v(t_xyz light_dir, t_xyz normal);
+t_rgb scale_color(t_rgb color, double scale);
+t_rgb add_color(t_rgb color1, t_rgb color2);
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
 

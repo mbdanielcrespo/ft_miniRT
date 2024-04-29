@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 22:50:33 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:41:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_rgb	set_color(t_light *lig, t_rgb base_col, double diffuse_intensity)
 	return (lit_color);
 }
 
-t_rgb	lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type)
+t_rgb	lit_color(t_data *dt, t_xyz ip, void *obj, t_type type)
 {
 	t_xyz	normal;
 	t_rgb	lit_color;
@@ -92,15 +92,50 @@ t_rgb	lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type)
 	double	diffuse_intensity;
 
 	set_pos_and_col(&lit_color, &pos, obj, type);
-	//normal = norm_v(subtr_v(intersect_pt, pos));
-	set_normal(&normal, obj, type, intersect_pt);
+	//normal = norm_v(subtr_v(ip, pos));
+	set_normal(&normal, obj, type, ip);
 	diffuse_intensity = fmax(dot(norm_v(normal), 
 				norm_v(subtr_v(dt->light->position,
-					intersect_pt))), 0) * dt->light->brightness;
+					ip))), 0) * dt->light->brightness;
 	lit_color = set_color(dt->light, lit_color, diffuse_intensity);
+	if (type != PLANE)
+		lit_color = add_color(lit_color, specular_light(dt, ip, normal, 10));
 	return (lit_color);
 }
 
-// Calculate AMBIENT LIGHT (base color) = intensity * initial color 
-// Calculate DIFUSE LIGHT (directional light from points)
-// Calculate SPECULAR LIGHT (bright spots) = bright spots
+t_rgb specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess)
+{
+    t_xyz view_dir = norm_v(subtr_v(dt->camera->position, ip));
+    t_xyz light_dir = norm_v(subtr_v(dt->light->position, ip));
+    t_xyz reflect_dir = reflect_v(light_dir, normal);
+    double spec_intensity = pow(fmax(dot(view_dir, reflect_dir), 0), shininess);
+    t_rgb specular_color = scale_color(dt->light->color, spec_intensity * dt->light->brightness);
+    return specular_color;
+}
+
+t_xyz reflect_v(t_xyz light_dir, t_xyz normal)
+{
+    double dot_product = dot(light_dir, normal);
+    t_xyz reflected = {
+        2 * dot_product * normal.x - light_dir.x,
+        2 * dot_product * normal.y - light_dir.y,
+        2 * dot_product * normal.z - light_dir.z
+    };
+    return reflected;
+}
+
+t_rgb scale_color(t_rgb color, double scale) {
+    return (t_rgb){
+        fmin(255, color.r * scale),
+        fmin(255, color.g * scale),
+        fmin(255, color.b * scale)
+    };
+}
+
+t_rgb add_color(t_rgb color1, t_rgb color2) {
+    return (t_rgb){
+        fmin(fmax(color1.r + color2.r, 0), 255),
+        fmin(fmax(color1.g + color2.g, 0), 255),
+        fmin(fmax(color1.b + color2.b, 0), 255)
+    };
+}
