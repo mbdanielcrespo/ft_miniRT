@@ -27,7 +27,8 @@ SRC_FILES = main.c \
 			parsing/data.c parsing/parser.c parsing/sphere.c parsing/plane.c parsing/cylinder.c \
 			viewport.c \
 			cleanup/cleanup1.c \
-			intersections/sp_intersection.c intersections/pl_intersection.c intersections/cy_intersection.c intersections/intersection.c\
+			intersections/sp_intersection.c intersections/pl_intersection.c intersections/cy_intersection.c \
+			intersections/obj_intersection.c intersections/intersection.c \
 			debug.c 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))

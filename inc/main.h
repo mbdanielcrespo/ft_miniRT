@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/29 22:20:27 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:43:56 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,8 +210,8 @@ t_rgb specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
 t_xyz reflect_v(t_xyz light_dir, t_xyz normal);
 t_rgb scale_color(t_rgb color, double scale);
 t_rgb add_color(t_rgb color1, t_rgb color2);
+int	calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
 
-t_rgb	calc_shadow(t_data *dt, t_xyz ip, t_rgb color);
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
 
@@ -239,10 +239,12 @@ t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir,
 int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
 
-void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec);
+//void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, t_xyz ori);
+void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type);
 int	intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int	intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int	intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
+int	intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
 
 
 ///////////// UTILS /////////////

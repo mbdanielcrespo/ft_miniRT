@@ -6,13 +6,15 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/29 22:19:03 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:46:11 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-int	intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip)
+// TODO: Cam normal is working only along the FOV, not the 360 range, fix it***
+
+int	intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip)
 {
 	t_xyz	oc;
 	double	t;
@@ -28,6 +30,37 @@ int	intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip)
 		(2 * dot(pix_dir, pix_dir));
 	*ip = add_v(pos, mult_v(pix_dir, t));
 	return (1);
+}
+
+
+int intersect_sphere(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip)
+{
+    t_xyz oc = subtr_v(pos, sp->position);
+    double a = dot(pix_dir, pix_dir);
+    double b = 2 * dot(oc, pix_dir);
+    double c = dot(oc, oc) - pow(sp->diameter / 2, 2);
+    double discr = b * b - 4 * a * c;
+
+    if (discr < 0)
+        return 0;  // No real roots, no intersection
+
+    double sqrt_discr = sqrt(discr);
+    double t1 = (-b - sqrt_discr) / (2 * a);
+    double t2 = (-b + sqrt_discr) / (2 * a);
+
+    // Choose the smallest t value that is greater than zero
+    double t = -1;
+    if (t1 > 0 && (t1 < t2 || t2 < 0)) {
+        t = t1;
+    } else if (t2 > 0) {
+        t = t2;
+    }
+
+    if (t < 0)
+        return 0;  // All intersection points are behind the ray's origin
+
+    *ip = add_v(pos, mult_v(pix_dir, t));
+    return 1;
 }
 
 t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *ip)
@@ -56,6 +89,7 @@ t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 	return (ret);
 }
 
+// TODO: Check on shading calculus
 int	intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 {
 	t_sphere	*tmp;
@@ -63,7 +97,7 @@ int	intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 	tmp = dt->sphere;
 	while (tmp)
 	{
-		if (intersect_sphere(dt->light->position, pix_dir, tmp, ip))
+		if (intersect_sphere_shade(dt->light->position, pix_dir, tmp, ip))
 			return (1);
 		tmp = tmp->next;
 	}

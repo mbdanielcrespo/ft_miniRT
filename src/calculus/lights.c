@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/29 20:54:53 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:55:18 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_rgb	lit_color(t_data *dt, t_xyz ip, void *obj, t_type type)
 	double	diffuse_intensity;
 
 	set_pos_and_col(&lit_color, &pos, obj, type);
-	//normal = norm_v(subtr_v(ip, pos));
 	set_normal(&normal, obj, type, ip);
 	diffuse_intensity = fmax(dot(norm_v(normal), 
 				norm_v(subtr_v(dt->light->position,

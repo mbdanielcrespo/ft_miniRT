@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:41:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/29 21:49:01 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:22:12 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,8 @@ int	intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 	tmp = dt->cylinder;
 	while (tmp)
 	{
-		printf("Cylinder!\n");
 		if (intersect_cylinder(dt->light->position, pix_dir, tmp, ip))
 				return (1);
-		print_trpl_float(*ip);
 		tmp = tmp->next;
 	}
 	return (0);
