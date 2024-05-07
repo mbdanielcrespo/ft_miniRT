@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/29 21:42:24 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:41:06 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_xyz	calc_pixel_dir(t_viewport vp)
 	ptr = data();
 	pix_x = mult_v(vp.cam_right, vp.ndc_x);
 	pix_y = mult_v(vp.cam_up, vp.ndc_y);
-	pix_z = ptr->camera->norm_vect;
+	pix_z = mult_v(ptr->camera->norm_vect, 1);	//ptr->camera->norm_vect;
 	pixel_dir = add_v(add_v(pix_x, pix_y), pix_z);
 	return (pixel_dir);
 }

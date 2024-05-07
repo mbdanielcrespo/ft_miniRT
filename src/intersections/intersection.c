@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/02 14:47:51 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:44:56 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
 {
 	t_data	*dt;
 	t_rgb	color;
-	t_rgb	shadow_col = {0, 0, 0};
+	//t_rgb	shadow_col = {0, 0, 0};
 
 	dt = data();
 	color = base_color(dt, obj, type);
 	color = lit_color(dt, ip, obj, type);
-	if (calc_shadow(dt, ip, obj, type))
-		color = shadow_col;
+	//if (calc_shadow(dt, ip, obj, type))
+	//	color = shadow_col;
 	return (color);
 }
 
@@ -47,7 +47,6 @@ void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj,
 	t_xyz	*ip;
 
 	(void)type;
-
 	ip = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	if (intersect_shperes2(dt, pixel_dir, ip))
 	{	
