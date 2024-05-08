@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 22:33:05 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:59:47 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	create_ambient(char *line, int n_args)
 	amb = ft_safe_malloc(sizeof(t_ambient), data_destroy, NULL);
 	args = ft_split(line, ' ');
 	amb->intensity = ft_atof(args[1]);
-	if (!triple_int(&amb->color, args[2]))
+	if (amb->intensity > 1 || amb->intensity < 0
+		|| !triple_int(&amb->color, args[2]))
 	{
 		ft_fsplit(args);
 		ft_error_destroy("Parsing error, on args!", data_destroy);
@@ -74,7 +75,8 @@ void	create_camera(char *line, int n_args)
 	cam = ft_safe_malloc(sizeof(t_camera), data_destroy, NULL);
 	args = ft_split(line, ' ');
 	cam->field_of_view = ft_atof(args[3]);
-	if (!triple_float(&cam->position, args[1])
+	if (cam->field_of_view < 0 || cam->field_of_view > 180
+		|| !triple_float(&cam->position, args[1])
 		|| !triple_float(&cam->norm_vect, args[2]))
 	{
 		ft_fsplit(args);
@@ -96,8 +98,14 @@ void	create_light(char *line, int n_args)
 		ft_error_destroy("Parsing error, invalid line", data_destroy);
 	lig = ft_safe_malloc(sizeof(t_light), data_destroy, NULL);
 	args = ft_split(line, ' ');
+	if (args[2][0] == '-')
+	{
+		ft_fsplit(args);
+		ft_error_destroy("Brightness out of range!", data_destroy);
+	}
 	lig->brightness = ft_atof(args[2]);
-	if (!triple_float(&lig->position, args[1])
+	if (lig->brightness < 0 || lig->brightness > 1
+		|| !triple_float(&lig->position, args[1])
 		|| !triple_int(&lig->color, args[3]))
 	{
 		ft_fsplit(args);

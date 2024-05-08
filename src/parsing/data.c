@@ -39,7 +39,18 @@ void	init_data(char **av)
 void	open_and_read_file(char **av)
 {
 	int	fd;
+	int	i;
+	int	j;
+	char	*rt;
 
+	rt = ".rt";
+	i = ft_strlen(av[1]) - 3;
+	j = 0;
+	while (av[1][i])
+	{
+		if (av[1][i++] != rt[j++])
+			ft_error("Invalid file type!");
+	}
 	fd = open(av[1], O_RDONLY);		// TODO: DONT FORGET TO CLOSE FD ON DATA DESTROY
 	if (fd < 0)
 		ft_error("Error opening the file!");	// TODO: CHECK IF FILE HAS .rt EXTENSION 

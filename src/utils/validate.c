@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:48:59 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 21:30:05 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:51:18 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	triple_int(t_rgb *trpl_int, char *arg)
 	trpl_int->g = ft_atoi(vals[1]);
 	trpl_int->b = ft_atoi(vals[2]);
 	ft_fsplit(vals);
+	if (check_rgb(trpl_int))
+		return (0);
 	return (1);
 }
 

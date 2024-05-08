@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:00:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 22:28:07 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:05:38 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	create_cylinder(char *line, int n_args)
 	args = ft_split(line, ' ');
 	cy->diameter = ft_atof(args[3]);
 	cy->height = ft_atof(args[4]);
-	if (!triple_float(&cy->position, args[1])
+	if (cy->diameter < 0 || cy->height < 0 
+		|| !triple_float(&cy->position, args[1])
 		|| !triple_float(&cy->norm_vect, args[2])
 		|| !triple_int(&cy->color, args[5]))
 	{
