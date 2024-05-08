@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 16:40:39 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:33:19 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
 {
 	t_data	*dt;
 	t_rgb	color;
-	//t_rgb	shadow_col = {0, 0, 0};
+	t_rgb	shadow_col = {0, 0, 0};
 
 	dt = data();
 	color = base_color(dt, obj, type);
-	color = lit_color(dt, ip, obj, type);
-	//if (calc_shadow(dt, ip, obj, type))
-	//	color = shadow_col;
+	if (dt->diffuse_light)
+		color = lit_color(dt, ip, obj, type);
+	if (dt->hard_shadows)
+	{
+		if (calc_shadow(dt, ip, obj, type))
+			color = shadow_col;
+	}
 	return (color);
 }
 
