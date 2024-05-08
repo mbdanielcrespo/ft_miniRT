@@ -23,7 +23,7 @@ INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc
 
 SRC_FILES = main.c \
 			calculus/vector_math.c calculus/lights.c \
-			utils/validate.c utils/mlx_setup.c utils/utils.c \
+			utils/validate.c utils/mlx_setup.c utils/utils.c utils/utils2.c \
 			parsing/data.c parsing/parser.c parsing/sphere.c parsing/plane.c parsing/cylinder.c \
 			viewport.c \
 			cleanup/cleanup1.c \
