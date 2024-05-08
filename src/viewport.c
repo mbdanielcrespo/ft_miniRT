@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 14:41:06 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:40:46 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,26 @@ t_viewport	set_viewport(t_viewport vp, int x, int y)
 	(void)ptr;
 	if (x == 0 && y == 0)
 	{
-		vp.scale = tan(ptr->camera->field_of_view * 0.5 * (PI / 180.0));
-		triple_float(&vp.cam_up, "0,1,0");
-		triple_float(&vp.cam_right, "1,0,0");
+		vp.cam_forward = ptr->camera->norm_vect;
+		vp.cam_right = norm_v(cross_v((t_xyz){0, 1, 0}, vp.cam_forward));
+		vp.cam_up = cross_v(vp.cam_forward, vp.cam_right);
 	}
 	vp.ndc_x = (x + 0.5) / W_WIDTH * 2 - 1;
 	vp.ndc_y = 1 - (y + 0.5) / W_HEIGHT * 2;
 	vp.view_ratio = (double)W_WIDTH / (double)W_HEIGHT;
 	vp.ndc_x *= vp.view_ratio * vp.scale;
+	vp.scale = tan(ptr->camera->field_of_view * 0.5 * (PI / 180.0));
 	vp.ndc_y *= vp.scale;
 	return (vp);
 }
 
 t_xyz	calc_pixel_dir(t_viewport vp)
 {
-	t_xyz	pixel_dir;
-	t_xyz	pix_x;
-	t_xyz	pix_y;
-	t_xyz	pix_z;
-	t_data	*ptr;
+	t_xyz	pix_dir;
 
-	ptr = data();
-	pix_x = mult_v(vp.cam_right, vp.ndc_x);
-	pix_y = mult_v(vp.cam_up, vp.ndc_y);
-	pix_z = mult_v(ptr->camera->norm_vect, 1);	//ptr->camera->norm_vect;
-	pixel_dir = add_v(add_v(pix_x, pix_y), pix_z);
-	return (pixel_dir);
+	pix_dir = norm_v(add_v(add_v(mult_v(vp.cam_right, vp.ndc_x),
+				mult_v(vp.cam_up, vp.ndc_y)), vp.cam_forward));
+	return (pix_dir);
 }
 
 void	draw_viewport(t_data *dt)

@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 14:44:56 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:40:39 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj,
 		if (!intersect_sphere_shade(dt->light->position, pixel_dir, (t_sphere *)obj, ip))
 			*intersec = 1;
 	}
-	//if (intersect_planes2(dt, pixel_dir, ip))
-	//	*intersec = 1;
 	if (intersect_cylinders2(dt, pixel_dir, ip))
 	{
 		if (!intersect_cylinder(dt->light->position, pixel_dir, (t_cylinder *)obj, ip))

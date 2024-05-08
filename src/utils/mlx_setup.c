@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:10:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 14:15:37 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:47:29 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,19 @@ void	blackout_screen(t_data *dt)
 void	update_parameters(t_data *dt)
 {
 	blackout_screen(dt);
+	print_trpl_float(dt->camera->norm_vect);
 	draw_viewport(dt);
 	mlx_put_image_to_window(dt->mlx_ptr, dt->win_ptr, dt->img.img_ptr, 0, 0);
+}
+
+int	is_valid_keycode(int keycode)
+{
+	if (keycode == K_1 || keycode == K_2 || keycode == K_3 
+		|| keycode == K_4 || keycode == K_UP || keycode == K_DOWN
+		|| keycode == K_LEFT || keycode == K_RIGHT || keycode == K_W
+		|| keycode == K_A || keycode == K_S || keycode == K_D)
+		return (1);
+	return (0);
 }
 
 int	key_press(int keycode)
@@ -44,14 +55,35 @@ int	key_press(int keycode)
 		exit(0);
 	}
 	if (keycode == K_LEFT)
-		dt->camera->position.x -= 5; 
-	if (keycode == K_RIGHT)
-		dt->camera->position.x += 5; 
-	if (keycode == K_UP)
-		dt->camera->position.y -= 5;
-	if (keycode == K_DOWN)
-		dt->camera->position.y += 5;
-	update_parameters(dt);
+		dt->camera->position.x -= 2; 
+	else if (keycode == K_RIGHT)
+		dt->camera->position.x += 2; 
+	else if (keycode == K_UP)
+		dt->camera->position.y += 2;
+	else if (keycode == K_DOWN)
+		dt->camera->position.y -= 2;
+	else if (keycode == K_1)
+		dt->camera->position.z += 2;
+	else if (keycode == K_2)
+		dt->camera->position.z -= 2;
+	else if (keycode == K_W || keycode == K_S)
+	{
+        double delta = (keycode == K_W) ? 0.1 : -0.1;
+        double angle = atan2(dt->camera->norm_vect.y, dt->camera->norm_vect.z) + delta;
+        angle = fmax(-PI/2, fmin(PI/2, angle));
+        dt->camera->norm_vect.y = sin(angle);
+        dt->camera->norm_vect.z = cos(angle);
+	}
+	else if (keycode == K_A || keycode == K_D)
+	{
+        double delta = (keycode == K_A) ? -0.1 : 0.1;
+        double angle = atan2(dt->camera->norm_vect.x, dt->camera->norm_vect.z) + delta;
+        dt->camera->norm_vect.x = sin(angle);
+        dt->camera->norm_vect.z = cos(angle);
+	}
+	dt->camera->norm_vect = norm_v(dt->camera->norm_vect);
+	if (is_valid_keycode(keycode))
+		update_parameters(dt);
 	return (0);
 }
 

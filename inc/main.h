@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/02 14:43:56 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:28:42 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 # define K_DOWN		65364
 # define K_LEFT		65361
 # define K_RIGHT	65363
+# define K_W		119
+# define K_A		97
+# define K_S		115
+# define K_D		100
 # define K_1		49
 # define K_2		50
 # define K_3		51
@@ -159,6 +163,7 @@ struct s_viewport
 	t_dlong	ndc_x;
 	t_dlong	ndc_y;
 	t_dlong	scale;
+	t_xyz	cam_forward;
 	t_xyz	cam_up;
 	t_xyz	cam_right;
 };
@@ -270,5 +275,6 @@ t_xyz		add_v(t_xyz v1, t_xyz v2);
 t_xyz		subtr_v(t_xyz v1, t_xyz v2);
 t_xyz		mult_v(t_xyz v, double scalar);
 double		dot(t_xyz v1, t_xyz v2);
+t_xyz cross_v(t_xyz v1, t_xyz v2);
 
 #endif //MAIN_H
