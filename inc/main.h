@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 15:50:13 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:26:15 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,23 @@
 # define W_HEIGHT	400
 # define PI			3.14159265358979323846
 # define K_DIFFUSE	0.8
-
+# define ROT_STEP	0.1	
+# define STEP		2.0
 # define K_ESC		65307
 # define K_UP		65362
 # define K_DOWN		65364
 # define K_LEFT		65361
 # define K_RIGHT	65363
+# define K_F		102
+# define K_B		98
+# define K_Z		122
+# define K_I		105
+# define K_O		111
+# define K_P		112
+# define K_W		119
+# define K_A		97
+# define K_S		115
+# define K_D		100
 # define K_1		49
 # define K_2		50
 # define K_3		51
@@ -137,6 +148,17 @@ struct s_img
 	int				endian;
 };
 
+struct s_viewport
+{
+	t_dlong	view_ratio;
+	t_dlong	ndc_x;
+	t_dlong	ndc_y;
+	t_dlong	scale;
+	t_xyz	cam_forward;
+	t_xyz	cam_up;
+	t_xyz	cam_right;
+};
+
 struct	s_data
 {
 	t_camera		*camera;
@@ -149,18 +171,10 @@ struct	s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_img			img;
-	int				first;
-	int				on_base;
-};
-
-struct s_viewport
-{
-	t_dlong	view_ratio;
-	t_dlong	ndc_x;
-	t_dlong	ndc_y;
-	t_dlong	scale;
-	t_xyz	cam_up;
-	t_xyz	cam_right;
+	t_viewport		vp;
+	int				diffuse_light;
+	int				specular_light;
+	int				hard_shadows;
 };
 
 // Data
@@ -206,11 +220,11 @@ t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
 t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
 t_rgb		base_color(t_data *dt, void *obj, t_type type);
 
-t_rgb specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
-t_xyz reflect_v(t_xyz light_dir, t_xyz normal);
-t_rgb scale_color(t_rgb color, double scale);
-t_rgb add_color(t_rgb color1, t_rgb color2);
-int	calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
+t_rgb		specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
+t_xyz		reflect_v(t_xyz light_dir, t_xyz normal);
+t_rgb		scale_color(t_rgb color, double scale);
+t_rgb		add_color(t_rgb color1, t_rgb color2);
+int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
 
 void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
@@ -240,11 +254,11 @@ int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
 
 //void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, t_xyz ori);
-void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type);
-int	intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
-int	intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
-int	intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
-int	intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
+void		object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type);
+int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
+int			intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
+int			intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
+int			intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
 
 
 ///////////// UTILS /////////////
@@ -258,6 +272,7 @@ int			check_rgb(t_rgb *tmp);
 
 
 // mlx setup
+void		update_parameters(t_data *dt);
 int			key_press(int keycode);
 int			close_win(void);
 void		mlx_setup(void);
@@ -272,5 +287,18 @@ t_xyz		add_v(t_xyz v1, t_xyz v2);
 t_xyz		subtr_v(t_xyz v1, t_xyz v2);
 t_xyz		mult_v(t_xyz v, double scalar);
 double		dot(t_xyz v1, t_xyz v2);
+t_xyz		cross_v(t_xyz v1, t_xyz v2);
+
+// Camera mov
+int			is_valid_keycode(int keycode);
+void		set_lighting(t_data *dt, int keycode);
+void		translate_pos(t_data *dt, int keycode);
+void		camera_settings(t_data *dt, int keycode);
+
+// Camera rot
+void		update_camera_vectors(t_data *dt);
+void		rot_yaw_x(t_data *dt, double delta);
+void		rot_pitch_y(t_data *dt, double delta);
+void		rotate_camera(t_data *dt, int keycode);
 
 #endif //MAIN_H

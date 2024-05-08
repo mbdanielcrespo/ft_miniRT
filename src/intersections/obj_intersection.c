@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:18:50 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 14:46:26 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:35:26 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec)
 			return (1);
 		}
 	}
+	intersec = 0;
 	return (0);
 }
 
@@ -64,12 +65,12 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel, int intersec)
 	obj = intersect_shperes(dt, pixel_dir, ip);
 	if (update_dist(obj, ip, &min_dist, &intersec))
 		color = calculate_color(*ip, obj, SPHERE);
-	/*obj = intersect_planes(dt, pixel_dir, ip);
+	obj = intersect_planes(dt, pixel_dir, ip);
 	if (update_dist(obj, ip, &min_dist, &intersec))
 		color = calculate_color(*ip, obj, PLANE);
 	obj = intersect_cylinders(dt, pixel_dir, ip);
 	if (update_dist(obj, ip, &min_dist, &intersec))
-		color = calculate_color(*ip, obj, CYLINDER);*/
+		color = calculate_color(*ip, obj, CYLINDER);
 	if (intersec != 0)
 		paint_pixel(pixel, color, 1);
 	else

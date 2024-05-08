@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 15:13:36 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:36:01 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	init_data(char **av)
 	ptr->sphere = NULL;
 	ptr->plane = NULL;
 	ptr->cylinder = NULL;
-	ptr->first = 1;
-	ptr->on_base = 0;
+	ptr->diffuse_light = 1;
+	ptr->specular_light = 1;
+	ptr->hard_shadows = 0;
 	open_and_read_file(av);
 }
 

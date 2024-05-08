@@ -3,7 +3,9 @@
 		"libft.h": "c",
 		"main.h": "c",
 		"random": "c",
-		"iterator": "c"
+		"iterator": "c",
+		"limits": "c",
+		"algorithm": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/07 14:44:56 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:33:19 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
 {
 	t_data	*dt;
 	t_rgb	color;
-	//t_rgb	shadow_col = {0, 0, 0};
+	t_rgb	shadow_col = {0, 0, 0};
 
 	dt = data();
 	color = base_color(dt, obj, type);
-	color = lit_color(dt, ip, obj, type);
-	//if (calc_shadow(dt, ip, obj, type))
-	//	color = shadow_col;
+	if (dt->diffuse_light)
+		color = lit_color(dt, ip, obj, type);
+	if (dt->hard_shadows)
+	{
+		if (calc_shadow(dt, ip, obj, type))
+			color = shadow_col;
+	}
 	return (color);
 }
 
@@ -53,8 +57,6 @@ void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj,
 		if (!intersect_sphere_shade(dt->light->position, pixel_dir, (t_sphere *)obj, ip))
 			*intersec = 1;
 	}
-	//if (intersect_planes2(dt, pixel_dir, ip))
-	//	*intersec = 1;
 	if (intersect_cylinders2(dt, pixel_dir, ip))
 	{
 		if (!intersect_cylinder(dt->light->position, pixel_dir, (t_cylinder *)obj, ip))

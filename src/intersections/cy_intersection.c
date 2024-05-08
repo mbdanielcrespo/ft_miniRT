@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:41:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/02 14:22:12 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:18:14 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int	within_cylinder_radius(t_xyz *ip, t_cylinder *cy, t_xyz cap_center)
 
 	dist = distance(*ip, cap_center);
 	if (dist <= (cy->diameter / 2.0))
-	{
-		//data()->on_base = 1;
 		return (1);
-	}
 	return (0);
 }
 

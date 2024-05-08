@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/02 12:55:18 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:34:07 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,11 @@ t_rgb	lit_color(t_data *dt, t_xyz ip, void *obj, t_type type)
 				norm_v(subtr_v(dt->light->position,
 					ip))), 0) * dt->light->brightness;
 	lit_color = set_color(dt->light, lit_color, diffuse_intensity);
-	if (type != PLANE)
-		lit_color = add_color(lit_color, specular_light(dt, ip, normal, 10));
+	if (dt->specular_light)
+	{
+		if (type != PLANE)
+			lit_color = add_color(lit_color, specular_light(dt, ip, normal, 10));
+	}
 	return (lit_color);
 }
 
