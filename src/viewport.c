@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 12:49:43 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:49:31 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	draw_viewport(t_data *dt)
 	int			pixel;
 	t_viewport	vp = {0};
 	t_xyz		pixel_dir;
+	int			intersec;
 
+	intersec = 0;
 	y = -1;
 	printf("Image status:\n");
 	while (++y < W_HEIGHT)
@@ -62,16 +64,8 @@ void	draw_viewport(t_data *dt)
 			pixel_dir = calc_pixel_dir(vp);
 			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
 			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
-			draw_on_screen(dt, pixel_dir, pixel);
+			object_intersections(dt, pixel_dir, pixel, intersec);
 		}
 	}
 	printf("\n");
-}
-
-void	draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel)
-{
-	int	intersec;
-
-	intersec = 0;
-	object_intersections(dt, pixel_dir, pixel, intersec);
 }

@@ -22,7 +22,7 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 INC_FLAGS = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)/inc
 
 SRC_FILES = main.c \
-			calculus/vector_math.c calculus/lights.c \
+			calculus/vector_math.c calculus/lights.c calculus/color.c \
 			utils/validate.c utils/mlx_setup.c utils/utils.c utils/camera_mov.c utils/camera_rot.c \
 			parsing/data.c parsing/parser.c parsing/sphere.c parsing/plane.c parsing/cylinder.c \
 			viewport.c \

@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 15:26:15 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:08:41 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ t_data		*data(void);
 void		init_data(char **av);
 void		open_and_read_file(char **av);
 void		fill_data(int fd);
-
 // Create elements
 void		create_new_element(char *line);
 void		create_ambient(char *line, int n_args);
@@ -194,13 +193,11 @@ void		create_plane(char *line, int n_args);
 void		insert_plane(t_plane *pl);
 void		create_cylinder(char *line, int n_args);
 void		insert_cylinder(t_cylinder *cy);
-
 // Cleanup
 void		free_spheres(t_sphere *sphere);
 void		free_planes(t_plane *plane);
 void		free_cylinders(t_cylinder *cylinder);
 void		data_destroy(void);
-
 // Debug prints
 void		print_data(void);
 void		print_trpl_float(t_xyz trpl_float);
@@ -215,34 +212,21 @@ void		print_cylinders(t_cylinder *cylinder);
 // Viewport
 t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
-t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
-
-t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
-t_rgb		base_color(t_data *dt, void *obj, t_type type);
-
-t_rgb		specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
-t_xyz		reflect_v(t_xyz light_dir, t_xyz normal);
-t_rgb		scale_color(t_rgb color, double scale);
-t_rgb		add_color(t_rgb color1, t_rgb color2);
-int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
-
-void		draw_on_screen(t_data *dt, t_xyz pixel_dir, int pixel);
 void		draw_viewport(t_data *dt);
 
 // Intersections
-int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
 void		object_intersections(t_data *dt, t_xyz pixel_dir,
 				int pixel, int intersec);
-// sp intersections
+// sp
 t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir,
 				t_sphere *sp, t_xyz *intersect_pt);
-// pl intersections
+// pl
 t_plane		*intersect_planes(t_data *dt, t_xyz pix_dir,
 				t_xyz *intersect_pt);
 int			intersect_plane(t_xyz pos, t_xyz pix_dir,
 				t_plane *pl, t_xyz *intersect_pt);
-// cy intersections
+// cy
 int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy,
 				t_xyz cap_center);
 int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt);
@@ -253,31 +237,28 @@ t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir,
 int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
 
-//void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, t_xyz ori);
 void		object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type);
 int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int			intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int			intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int			intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
 
+t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
+int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
+int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
 
-///////////// UTILS /////////////
-// Validate
-int			triple_int(t_rgb *trpl_int, char *arg);
-int			triple_float(t_xyz *trpl_float, char *arg);
-int			is_valid_char(char ch);
-int			is_valid_arg(char *arg);
-int			is_valid_line(char *line, int n_args);
+///////////// CALCULUS //////////
+// Color
+void		set_pos_and_col(t_rgb *col, t_xyz *pos, void *obj, t_type type);
+t_rgb		base_color(t_data *dt, void *obj, t_type type);
+t_rgb		set_color(t_light *lig, t_rgb base_col, double diffuse_intensity);
+t_rgb		scale_color(t_rgb color, double scale);
+t_rgb		add_color(t_rgb color1, t_rgb color2);
 
-// mlx setup
-void		update_parameters(t_data *dt);
-int			key_press(int keycode);
-int			close_win(void);
-void		mlx_setup(void);
-
-// Utils
-double		deg_to_rad(double deg);
-double		distance(t_xyz p1, t_xyz p2);
+// Light
+t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
+t_rgb		specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
+t_xyz		reflect_v(t_xyz light_dir, t_xyz normal);
 
 // Vector math
 t_xyz		norm_v(t_xyz v);
@@ -287,12 +268,26 @@ t_xyz		mult_v(t_xyz v, double scalar);
 double		dot(t_xyz v1, t_xyz v2);
 t_xyz		cross_v(t_xyz v1, t_xyz v2);
 
+///////////// UTILS /////////////
+// Validate
+int			triple_int(t_rgb *trpl_int, char *arg);
+int			triple_float(t_xyz *trpl_float, char *arg);
+int			is_valid_char(char ch);
+int			is_valid_arg(char *arg);
+int			is_valid_line(char *line, int n_args);
+// mlx setup
+void		update_parameters(t_data *dt);
+int			key_press(int keycode);
+int			close_win(void);
+void		mlx_setup(void);
+// Utils
+double		deg_to_rad(double deg);
+double		distance(t_xyz p1, t_xyz p2);
 // Camera mov
 int			is_valid_keycode(int keycode);
 void		set_lighting(t_data *dt, int keycode);
 void		translate_pos(t_data *dt, int keycode);
 void		camera_settings(t_data *dt, int keycode);
-
 // Camera rot
 void		update_camera_vectors(t_data *dt);
 void		rot_yaw_x(t_data *dt, double delta);
