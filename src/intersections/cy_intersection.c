@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:41:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 12:18:14 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:06:14 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,14 @@ t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir, t_xyz *ip)
 }
 
 
-int	intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip)
+int	intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip, t_xyz shadow_origin)
 {
 	t_cylinder	*tmp;
 
 	tmp = dt->cylinder;
 	while (tmp)
 	{
-		if (intersect_cylinder(dt->light->position, pix_dir, tmp, ip))
+		if (intersect_cylinder(shadow_origin, pix_dir, tmp, ip))
 				return (1);
 		tmp = tmp->next;
 	}
