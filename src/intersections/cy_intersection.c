@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:41:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/13 13:18:47 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:58:51 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	within_cylinder_tube(t_cylinder *cy, t_xyz *ip)
 	norm_dir = norm_v(cy->norm_vect);
 	center_to_point = subtr_v(*ip, cy->position);
 	proj_length = dot(center_to_point, norm_dir);
-	deform_fact = fabs((double)norm_dir.x) + fabs((double)norm_dir.y) + 
-		fabs((double)norm_dir.z);
+	deform_fact = fabs((double)norm_dir.x) + fabs((double)norm_dir.y)
+		+ fabs((double)norm_dir.z);
 	if (deform_fact < 1e-6)
 		deform_fact = 1;
 	if (fabs(proj_length) <= ((cy->height / 2.0) * deform_fact))
@@ -66,7 +66,6 @@ int	solve_t(t_xyz d_perp, t_xyz co_perp, double *discr)
 		t = -1;
 	if (t < 0)
 		return (0);
-	//
 	*discr = t;
 	return (1);
 }
@@ -77,6 +76,8 @@ int	solve_t_shade(t_xyz pos, t_xyz d_perp, t_xyz co_perp, double *discr)
 	double	t1;
 	double	t;
 	double	temp;
+	t_data	*dt;
+	double	light_distance;
 
 	t0 = (-(2 * dot(d_perp, co_perp)) - sqrt(*discr))
 		/ (2 * dot(d_perp, d_perp));
@@ -88,8 +89,8 @@ int	solve_t_shade(t_xyz pos, t_xyz d_perp, t_xyz co_perp, double *discr)
 		t0 = t1;
 		t1 = temp;
 	}
-	t_data *dt = data();
-	double light_distance = distance(dt->light->position, pos);
+	dt = data();
+	light_distance = distance(dt->light->position, pos);
 	if (t0 > EPSILON && t0 < light_distance)
 		t = t0;
 	else if (t1 > EPSILON && t1 < light_distance)
@@ -163,7 +164,7 @@ int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip)
 	if (intersect_plane(pos, pix_dir, pl2, ip)
 		&& within_cylinder_radius(ip, cy, pl2->position))
 		ret = 1;
-	if (solve_cylinder(pos, pix_dir, cy, ip) && 
+	if (solve_cylinder(pos, pix_dir, cy, ip) &&
 		within_cylinder_tube(cy, ip))
 		ret = 1;
 	free(pl1);

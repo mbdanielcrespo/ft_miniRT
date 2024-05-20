@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/13 13:44:45 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:15:44 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,7 @@ int			triple_float(t_xyz *trpl_float, char *arg);
 int			is_valid_char(char ch);
 int			is_valid_arg(char *arg);
 int			is_valid_line(char *line, int n_args);
+int			check_rgb(t_rgb *tmp);
 // mlx setup
 void		update_parameters(t_data *dt);
 int			key_press(int keycode);

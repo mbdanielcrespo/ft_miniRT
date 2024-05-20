@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:00:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 22:24:48 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:11:26 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	insert_plane(t_plane *pl)
 {
 	t_plane	*tmp;
 
-	tmp = data()->plane; 
+	tmp = data()->plane;
 	if (!tmp)
 	{
 		data()->plane = pl;

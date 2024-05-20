@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:52:25 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 15:58:19 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:38:18 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,22 @@ t_rgb	set_color(t_light *lig, t_rgb base_col, double diffuse_intensity)
 	return (lit_color);
 }
 
-t_rgb scale_color(t_rgb color, double scale)
+t_rgb	scale_color(t_rgb color, double scale)
 {
-    return (t_rgb){
-        fmin(255, color.r * scale),
-        fmin(255, color.g * scale),
-        fmin(255, color.b * scale)
-    };
+	t_rgb	tmp;
+
+	tmp.r = fmin(255, color.r * scale);
+	tmp.g = fmin(255, color.g * scale);
+	tmp.b = fmin(255, color.b * scale);
+	return (tmp);
 }
 
-t_rgb add_color(t_rgb color1, t_rgb color2)
+t_rgb	add_color(t_rgb color1, t_rgb color2)
 {
-    return (t_rgb){
-        fmin(fmax(color1.r + color2.r, 0), 255),
-        fmin(fmax(color1.g + color2.g, 0), 255),
-        fmin(fmax(color1.b + color2.b, 0), 255)
-    };
+	t_rgb	tmp;
+
+	tmp.r = fmin(fmax(color1.r + color2.r, 0), 255);
+	tmp.g = fmin(fmax(color1.g + color2.g, 0), 255);
+	tmp.b = fmin(fmax(color1.b + color2.b, 0), 255);
+	return (tmp);
 }
