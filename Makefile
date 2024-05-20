@@ -29,7 +29,8 @@ SRC_FILES = main.c \
 			cleanup/cleanup1.c \
 			intersections/sp_intersection.c intersections/pl_intersection.c intersections/cy_intersection.c \
 			intersections/obj_intersection.c intersections/intersection.c \
-			debug.c 
+			intersections/cy_intersections_shade.c intersections/sp_intersections_shade.c \
+			debug1.c debug2.c 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

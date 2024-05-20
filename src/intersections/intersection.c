@@ -6,13 +6,13 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 13:53:00 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:54:46 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-t_rgb	calculate_color(t_xyz ip, void *obj, t_type type, t_xyz pix_dir)
+t_rgb	calculate_color(t_xyz ip, void *obj, t_type type)
 {
 	t_data	*dt;
 	t_rgb	color;
@@ -27,34 +27,34 @@ t_rgb	calculate_color(t_xyz ip, void *obj, t_type type, t_xyz pix_dir)
 		color = lit_color(dt, ip, obj, type);
 	if (dt->hard_shadows)
 	{
-		if (calc_shadow(dt, ip, obj, type, pix_dir))
+		if (calc_shadow(dt, ip, obj, type))
 			color = shadow_col;
 	}
 	return (color);
 }
 
-int	calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type, t_xyz pix_dir)
+int	calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type)
 {
 	int		intersect;
 	t_xyz	normal;
 	t_xyz	shadow_dir;
 	t_xyz	shadow_origin;
 
-	(void)pix_dir;
 	intersect = 0;
 	set_normal(&normal, obj, type, ip);
 	shadow_dir = norm_v(subtr_v(dt->light->position, ip));
 	shadow_origin = add_v(ip, mult_v(normal, EPSILON));
-	object_intersection2(dt, shadow_dir, &intersect, obj, type, shadow_origin);
+	object_intersection2(shadow_dir, &intersect, obj, shadow_origin);
 	return (intersect);
 }
 
-void	object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type, t_xyz shadow_origin)
+void	object_intersection2(t_xyz pixel_dir, int *intersec, void *obj,
+	t_xyz shadow_origin)
 {
 	t_xyz	*ip;
+	t_data	*dt;
 
-	(void)type;
-	(void)obj;
+	dt = data();
 	ip = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
 	if (intersect_shperes2(dt, pixel_dir, ip, shadow_origin))
 	{

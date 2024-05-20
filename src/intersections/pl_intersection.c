@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/13 13:18:23 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:03:31 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ int	intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *ip)
 
 int	intersect_plane_shade(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *ip)
 {
-	double	dot_nd;
 	double	t;
 	t_xyz	vec_op;
+	t_data	*dt;
+	double	light_distance;
 
-	dot_nd = dot(pl->norm_vect, pix_dir);
-	if (fabs(dot_nd) < 1e-6)
+	dt = data(); 
+	if (fabs(dot(pl->norm_vect, pix_dir)) < 1e-6)
 		return (0);
 	vec_op = subtr_v(pl->position, pos);
-	t = dot(vec_op, pl->norm_vect) / dot_nd;
+	t = dot(vec_op, pl->norm_vect) / dot(pl->norm_vect, pix_dir);
 	if (t < 0)
 		return (0);
-	t_data *dt = data(); 
-	double light_distance = distance(dt->light->position, pos);
+	light_distance = distance(dt->light->position, pos);
 	if (t > EPSILON && t < light_distance)
 	{
 		*ip = add_v(pos, mult_v(pix_dir, t));

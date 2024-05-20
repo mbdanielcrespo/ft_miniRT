@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:49:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 13:29:20 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:48:07 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,4 @@ double	dot(t_xyz v1, t_xyz v2)
 	ret.z = v1.z * v2.z;
 	ret_val = ret.x + ret.y + ret.z;
 	return (ret_val);
-}
-
-t_xyz	cross_v(t_xyz v1, t_xyz v2)
-{
-	t_xyz	result;
-
-	result.x = v1.y * v2.z - v1.z * v2.y;
-	result.y = v1.z * v2.x - v1.x * v2.z;
-	result.z = v1.x * v2.y - v1.y * v2.x;
-	return (result);
 }

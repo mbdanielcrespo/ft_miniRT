@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:30:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 15:49:31 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:44:33 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_xyz	calc_pixel_dir(t_viewport vp)
 	t_xyz	pix_dir;
 
 	pix_dir = norm_v(add_v(add_v(mult_v(vp.cam_right, vp.ndc_x),
-				mult_v(vp.cam_up, vp.ndc_y)), vp.cam_forward));
+					mult_v(vp.cam_up, vp.ndc_y)), vp.cam_forward));
 	return (pix_dir);
 }
 
@@ -47,11 +47,9 @@ void	draw_viewport(t_data *dt)
 	int			x;
 	int			y;
 	int			pixel;
-	t_viewport	vp = {0};
 	t_xyz		pixel_dir;
-	int			intersec;
 
-	intersec = 0;
+	dt->intersec = 0;
 	y = -1;
 	printf("Image status:\n");
 	while (++y < W_HEIGHT)
@@ -59,12 +57,11 @@ void	draw_viewport(t_data *dt)
 		x = -1;
 		while (++x < W_WIDTH)
 		{
-			vp = set_viewport(vp, x, y);
-			dt->vp = vp;
-			pixel_dir = calc_pixel_dir(vp);
+			dt->vp = set_viewport(dt->vp, x, y);
+			pixel_dir = calc_pixel_dir(dt->vp);
 			pixel = (x * dt->img.bpp / 8) + (y * dt->img.line_size);
 			printf("%.0f\r", ((double)pixel / 4) / (W_HEIGHT * W_WIDTH) * 100);
-			object_intersections(dt, pixel_dir, pixel, intersec);
+			object_intersections(dt, pixel_dir, pixel, dt->intersec);
 		}
 	}
 	printf("\n");

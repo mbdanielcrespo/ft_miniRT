@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:15:44 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:57:49 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@
 # define K_DIFFUSE	0.4
 # define ROT_STEP	0.1	
 # define STEP		2.0
-# define DEFAULT_DL	1
-# define DEFAULT_SL	1
-# define DEFAULT_HS 1
+# define DEFAULT_DL	0
+# define DEFAULT_SL	0
+# define DEFAULT_HS 0
 # define K_ESC		65307
 # define K_UP		65362
 # define K_DOWN		65364
@@ -61,7 +61,6 @@
 # define K_2		50
 # define K_3		51
 # define K_4		52
-
 
 typedef struct s_xyz		t_xyz;
 typedef struct s_rgb		t_rgb;
@@ -180,6 +179,7 @@ struct	s_data
 	int				diffuse_light;
 	int				specular_light;
 	int				hard_shadows;
+	int				intersec;
 };
 
 // Data
@@ -242,18 +242,24 @@ t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir,
 int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
 
-void		object_intersection2(t_data *dt, t_xyz pixel_dir, int *intersec, void *obj, t_type type, t_xyz shadow_origin);
-int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip, t_xyz shadow_origin);
+void		object_intersection2(t_xyz pixel_dir, int *intersec,
+				void *obj, t_xyz shadow_origin);
+int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip,
+				t_xyz shadow_origin);
 int			intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
-int			intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip, t_xyz shadow_origin);
-int			intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
-int	intersect_plane_shade(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *ip);
-int	solve_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip);
-int	intersect_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip);
+int			intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip,
+				t_xyz shadow_origin);
+int			intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp,
+				t_xyz *ip);
+int			intersect_plane_shade(t_xyz pos, t_xyz pix_dir, t_plane *pl,
+				t_xyz *ip);
+int			solve_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy,
+				t_xyz *ip);
+int			intersect_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy,
+				t_xyz *ip);
 
-
-t_rgb		calculate_color(t_xyz ip, void *obj, t_type type, t_xyz pix_dir);
-int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type, t_xyz pix_dir);
+t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
+int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
 int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
 
 ///////////// CALCULUS //////////
@@ -267,7 +273,8 @@ t_rgb		add_color(t_rgb color1, t_rgb color2);
 // Light
 void		set_normal(t_xyz *normal, void *obj, t_type type, t_xyz ip);
 t_rgb		lit_color(t_data *dt, t_xyz intersect_pt, void *obj, t_type type);
-t_rgb		specular_light(t_data *dt, t_xyz ip, t_xyz normal, double shininess);
+t_rgb		specular_light(t_data *dt, t_xyz ip, t_xyz normal,
+				double shininess);
 t_xyz		reflect_v(t_xyz light_dir, t_xyz normal);
 
 // Vector math

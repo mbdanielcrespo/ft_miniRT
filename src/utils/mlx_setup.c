@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:10:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/08 15:20:57 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:59:00 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	mlx_setup(void)
 	dt->win_ptr = mlx_new_window(dt->mlx_ptr, W_HEIGHT, W_WIDTH, "miniRT");
 	dt->img.img_ptr = mlx_new_image(dt->mlx_ptr, W_HEIGHT, W_WIDTH);
 	dt->img.img_data = (unsigned char *)mlx_get_data_addr(dt->img.img_ptr,
-				&dt->img.bpp, &dt->img.line_size, &dt->img.endian);
+			&dt->img.bpp, &dt->img.line_size, &dt->img.endian);
 	draw_viewport(dt);
 	mlx_put_image_to_window(dt->mlx_ptr, dt->win_ptr, dt->img.img_ptr, 0, 0);
 	mlx_key_hook(dt->win_ptr, key_press, NULL);
