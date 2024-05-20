@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:52 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/09 13:43:10 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:42:15 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ int intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip) {
     double light_distance = distance(dt->light->position, pos);
 
     // Only consider t0 if it's within the valid range
-    if (t0 > EPSILON && t0 < light_distance) {
+    if (t0 > EPSILON && t0 < light_distance)
+	{
         *ip = add_v(pos, mult_v(pix_dir, t0));
         return 1;
     }
 
     // Check t1 only if t0 is invalid
-    if (t1 > EPSILON && t1 < light_distance) {
+    if (t1 > EPSILON && t1 < light_distance)
+	{
         *ip = add_v(pos, mult_v(pix_dir, t1));
         return 1;
     }

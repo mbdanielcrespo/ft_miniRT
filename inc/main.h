@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/09 14:07:02 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:44:45 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 # define L_PURPLE	"\x1b[95m"
 # define WHITE		"\x1b[97m"
 
-# define W_WIDTH	400
-# define W_HEIGHT	400
+# define W_WIDTH	500
+# define W_HEIGHT	500
 # define PI			3.14159265358979323846
 # define EPSILON	0.001
-# define K_DIFFUSE	0.8
+# define K_DIFFUSE	0.4
 # define ROT_STEP	0.1	
 # define STEP		2.0
 # define DEFAULT_DL	1
@@ -247,6 +247,10 @@ int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip, t_xyz shadow_orig
 int			intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
 int			intersect_cylinders2(t_data *dt, t_xyz pix_dir, t_xyz *ip, t_xyz shadow_origin);
 int			intersect_sphere_shade(t_xyz pos, t_xyz pix_dir, t_sphere *sp, t_xyz *ip);
+int	intersect_plane_shade(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *ip);
+int	solve_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip);
+int	intersect_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip);
+
 
 t_rgb		calculate_color(t_xyz ip, void *obj, t_type type, t_xyz pix_dir);
 int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type, t_xyz pix_dir);
