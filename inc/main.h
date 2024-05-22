@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:57:49 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:45:30 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ struct	s_data
 	int				specular_light;
 	int				hard_shadows;
 	int				intersec;
+	int				on_base;
 };
 
 // Data
@@ -219,9 +220,17 @@ t_viewport	set_viewport(t_viewport vp, int x, int y);
 t_xyz		calc_pixel_dir(t_viewport vp);
 void		draw_viewport(t_data *dt);
 
-// Intersections
+// Paint Pixel
+t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
+int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
+void		paint_pixel(int pixel, t_rgb color, int color_flag);
+
+// Object Intersections
+int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
 void		object_intersections(t_data *dt, t_xyz pixel_dir,
 				int pixel, int intersec);
+void		object_intersection2(t_xyz pixel_dir, int *intersec,
+				void *obj, t_xyz shadow_origin);
 // sp
 t_sphere	*intersect_shperes(t_data *dt, t_xyz pix_dir, t_xyz *intersect_pt);
 int			intersect_sphere(t_xyz pos, t_xyz pix_dir,
@@ -233,17 +242,15 @@ int			intersect_plane(t_xyz pos, t_xyz pix_dir,
 				t_plane *pl, t_xyz *intersect_pt);
 // cy
 int			within_cylinder_radius(t_xyz *intersect_pt, t_cylinder *cy,
-				t_xyz cap_center);
-int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt);
+				t_xyz cap_center, double *min_dist);
+int			within_cylinder_tube(t_cylinder *cy, t_xyz *intersect_pt,
+				double *min_dist);
 int			solve_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
 t_cylinder	*intersect_cylinders(t_data *dt, t_xyz pix_dir,
 				t_xyz *intersect_pt);
 int			intersect_cylinder(t_xyz pos, t_xyz pix_dir,
 				t_cylinder *cy, t_xyz *intersect_pt);
-
-void		object_intersection2(t_xyz pixel_dir, int *intersec,
-				void *obj, t_xyz shadow_origin);
 int			intersect_shperes2(t_data *dt, t_xyz pix_dir, t_xyz *ip,
 				t_xyz shadow_origin);
 int			intersect_planes2(t_data *dt, t_xyz pix_dir, t_xyz *ip);
@@ -257,10 +264,6 @@ int			solve_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy,
 				t_xyz *ip);
 int			intersect_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy,
 				t_xyz *ip);
-
-t_rgb		calculate_color(t_xyz ip, void *obj, t_type type);
-int			calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type);
-int			update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec);
 
 ///////////// CALCULUS //////////
 // Color

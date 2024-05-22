@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:05:39 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 13:46:05 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:42:01 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	set_normal(t_xyz *normal, void *obj, t_type type, t_xyz ip)
 
 	if (type == SPHERE)
 		*normal = norm_v(subtr_v(ip, ((t_sphere *) obj)->position));
-	else if (type == PLANE)
+	else if (type == PLANE || (*data()).on_base == 1)
+	{
 		*normal = ((t_plane *) obj)->norm_vect;
+	}
 	else if (type == CYLINDER)
 	{
 		normalized_axis = norm_v(((t_cylinder *) obj)->norm_vect);

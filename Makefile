@@ -28,7 +28,7 @@ SRC_FILES = main.c \
 			viewport.c \
 			cleanup/cleanup1.c \
 			intersections/sp_intersection.c intersections/pl_intersection.c intersections/cy_intersection.c \
-			intersections/obj_intersection.c intersections/intersection.c \
+			intersections/obj_intersection.c intersections/paint_pixel.c \
 			intersections/cy_intersections_shade.c intersections/sp_intersections_shade.c \
 			debug1.c debug2.c 
 

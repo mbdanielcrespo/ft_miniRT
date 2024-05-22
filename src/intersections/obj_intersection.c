@@ -6,30 +6,11 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:18:50 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 15:00:23 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:28:40 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
-
-void	paint_pixel(int pixel, t_rgb color, int color_flag)
-{
-	t_data	*dt;
-
-	dt = data();
-	if (color_flag != 0)
-	{
-		dt->img.img_data[pixel + 0] = color.b;
-		dt->img.img_data[pixel + 1] = color.g;
-		dt->img.img_data[pixel + 2] = color.r;
-	}
-	else
-	{
-		dt->img.img_data[pixel + 0] = 0;
-		dt->img.img_data[pixel + 1] = 0;
-		dt->img.img_data[pixel + 2] = 0;
-	}
-}
 
 int	update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec)
 {
@@ -40,6 +21,7 @@ int	update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec)
 	if (obj)
 	{
 		dist = distance(dt->camera->position, *ip);
+		
 		if (dist < *min_dist)
 		{
 			*intersec = 1;
@@ -69,12 +51,35 @@ void	object_intersections(t_data *dt, t_xyz pixel_dir, int pixel,
 	obj = intersect_planes(dt, pixel_dir, ip);
 	if (update_dist(obj, ip, &min_dist, &intersec))
 		color = calculate_color(*ip, obj, PLANE);
-	obj = intersect_cylinders(dt, pixel_dir, ip);	// Set onbase/or not
+	obj = intersect_cylinders(dt, pixel_dir, ip);
 	if (update_dist(obj, ip, &min_dist, &intersec))
 		color = calculate_color(*ip, obj, CYLINDER);
 	if (intersec != 0)
 		paint_pixel(pixel, color, 1);
 	else
 		paint_pixel(pixel, color, 0);
+	free(ip);
+}
+
+void	object_intersection2(t_xyz pixel_dir, int *intersec, void *obj,
+	t_xyz shadow_origin)
+{
+	t_xyz	*ip;
+	t_data	*dt;
+
+	dt = data();
+	ip = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
+	if (intersect_shperes2(dt, pixel_dir, ip, shadow_origin))
+	{
+		if (!intersect_sphere_shade(shadow_origin,
+				pixel_dir, (t_sphere *)obj, ip))
+			*intersec = 1;
+	}
+	if (intersect_cylinders2(dt, pixel_dir, ip, shadow_origin))
+	{
+		if (!intersect_cylinder_shade(shadow_origin,
+				pixel_dir, (t_cylinder *)obj, ip))
+			*intersec = 1;
+	}
 	free(ip);
 }

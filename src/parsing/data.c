@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:44:30 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:01:42 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_data(char **av)
 	ptr->diffuse_light = DEFAULT_DL;
 	ptr->specular_light = DEFAULT_SL;
 	ptr->hard_shadows = DEFAULT_HS;
+	ptr->on_base = 0;
 	open_and_read_file(av);
 }
 

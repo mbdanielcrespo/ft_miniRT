@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 21:03:07 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 16:54:46 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:11:40 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,22 @@ int	calc_shadow(t_data *dt, t_xyz ip, void *obj, t_type type)
 	return (intersect);
 }
 
-void	object_intersection2(t_xyz pixel_dir, int *intersec, void *obj,
-	t_xyz shadow_origin)
+void	paint_pixel(int pixel, t_rgb color, int color_flag)
 {
-	t_xyz	*ip;
 	t_data	*dt;
 
 	dt = data();
-	ip = ft_safe_malloc(sizeof(t_xyz), data_destroy, NULL);
-	if (intersect_shperes2(dt, pixel_dir, ip, shadow_origin))
+	if (color_flag != 0)
 	{
-		if (!intersect_sphere_shade(shadow_origin,
-				pixel_dir, (t_sphere *)obj, ip))
-			*intersec = 1;
+		dt->img.img_data[pixel + 0] = color.b;
+		dt->img.img_data[pixel + 1] = color.g;
+		dt->img.img_data[pixel + 2] = color.r;
 	}
-	if (intersect_cylinders2(dt, pixel_dir, ip, shadow_origin))
+	else
 	{
-		if (!intersect_cylinder_shade(shadow_origin,
-				pixel_dir, (t_cylinder *)obj, ip))
-			*intersec = 1;
+		dt->img.img_data[pixel + 0] = 0;
+		dt->img.img_data[pixel + 1] = 0;
+		dt->img.img_data[pixel + 2] = 0;
 	}
-	free(ip);
 }
+
