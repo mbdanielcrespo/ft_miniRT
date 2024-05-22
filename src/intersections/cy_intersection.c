@@ -6,18 +6,19 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:41:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/22 12:50:21 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:45:03 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
 
-int	within_cylinder_radius(t_xyz *ip, t_cylinder *cy, t_xyz cap_center, double *min_dist)
+int	within_cylinder_radius(t_xyz *ip, t_cylinder *cy, t_xyz cap_center,
+	double *min_dist)
 {
 	double	dist;
 	t_data	*dt;
 
-	dt = data();	
+	dt = data();
 	dist = distance(*ip, cap_center);
 	if (dist <= (cy->diameter / 2.0))
 	{
@@ -109,31 +110,28 @@ int	solve_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip)
 
 int	intersect_cylinder(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip)
 {
-	t_plane	*pl1;
-	t_plane	*pl2;
+	t_plane	pl1;
+	t_plane	pl2;
 	double	min_dist;
-	int		ret = 0;
+	int		ret;
 
+	ret = 0;
 	(*data()).on_base = 0;
 	min_dist = INFINITY;
-	pl1 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
-	pl2 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
-	pl1->norm_vect = cy->norm_vect;
-	pl1->position = add_v(cy->position,
+	pl1.norm_vect = cy->norm_vect;
+	pl1.position = add_v(cy->position,
 			mult_v(cy->norm_vect, cy->height / 2.0));
-	pl2->norm_vect = mult_v(cy->norm_vect, -1);
-	pl2->position = subtr_v(cy->position,
+	pl2.norm_vect = mult_v(cy->norm_vect, -1);
+	pl2.position = subtr_v(cy->position,
 			mult_v(cy->norm_vect, cy->height / 2.0));
-	if (intersect_plane(pos, pix_dir, pl1, ip)
-		&& within_cylinder_radius(ip, cy, pl1->position, &min_dist))
+	if (intersect_plane(pos, pix_dir, &pl1, ip)
+		&& within_cylinder_radius(ip, cy, pl1.position, &min_dist))
 		ret = 1;
-	if (intersect_plane(pos, pix_dir, pl2, ip)
-		&& within_cylinder_radius(ip, cy, pl2->position, &min_dist))
+	if (intersect_plane(pos, pix_dir, &pl2, ip)
+		&& within_cylinder_radius(ip, cy, pl2.position, &min_dist))
 		ret = 1;
 	if (solve_cylinder(pos, pix_dir, cy, ip)
 		&& within_cylinder_tube(cy, ip, &min_dist))
 		ret = 1;
-	free(pl1);
-	free(pl2);
 	return (ret);
 }

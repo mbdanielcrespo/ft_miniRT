@@ -6,13 +6,11 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:55:29 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/22 12:00:15 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:44:10 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <main.h>
-
-
 
 int	intersect_plane(t_xyz pos, t_xyz pix_dir, t_plane *pl, t_xyz *ip)
 {

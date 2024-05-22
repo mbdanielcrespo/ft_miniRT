@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 13:18:50 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/22 12:28:40 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:43:51 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	update_dist(void *obj, t_xyz *ip, double *min_dist, int *intersec)
 	if (obj)
 	{
 		dist = distance(dt->camera->position, *ip);
-		
 		if (dist < *min_dist)
 		{
 			*intersec = 1;
