@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:10:55 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:59:00 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:43:09 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	update_parameters(t_data *dt)
 {
-	// TODO: Delete previus Image?
 	int	i;
 
 	i = 0;

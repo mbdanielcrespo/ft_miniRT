@@ -33,6 +33,7 @@ void	init_data(char **av)
 	ptr->diffuse_light = DEFAULT_DL;
 	ptr->specular_light = DEFAULT_SL;
 	ptr->hard_shadows = DEFAULT_HS;
+	ptr->on_base = 0;
 	open_and_read_file(av);
 }
 
