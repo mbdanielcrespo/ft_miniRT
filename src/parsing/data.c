@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:44:30 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:19:12 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,24 @@ void	init_data(char **av)
 
 void	open_and_read_file(char **av)
 {
-	int	fd;
+	int	i;
+	int	j;
+	char	*rt;
+	t_data	*tmp;
 
-	fd = open(av[1], O_RDONLY);		// TODO: DONT FORGET TO CLOSE FD ON DATA DESTROY
-	if (fd < 0)
+	tmp = data();
+	rt = ".rt";
+	i = ft_strlen(av[1]) - 3;
+	j = 0;
+	while (av[1][i])
+	{
+		if (av[1][i++] != rt[j++])
+			ft_error("Invalid file type!");
+	}
+	tmp->fd = open(av[1], O_RDONLY);		// TODO: DONT FORGET TO CLOSE FD ON DATA DESTROY
+	if (tmp->fd < 0)
 		ft_error("Error opening the file!");	// TODO: CHECK IF FILE HAS .rt EXTENSION 
-	fill_data(fd);
+	fill_data(tmp->fd);
 }
 
 void	fill_data(int fd)

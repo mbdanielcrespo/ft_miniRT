@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:57:49 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:36:26 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@
 # define K_DIFFUSE	0.4
 # define ROT_STEP	0.1	
 # define STEP		2.0
-# define DEFAULT_DL	0
-# define DEFAULT_SL	0
-# define DEFAULT_HS 0
+# define DEFAULT_DL	1
+# define DEFAULT_SL	1
+# define DEFAULT_HS 1
 # define K_ESC		65307
 # define K_UP		65362
 # define K_DOWN		65364
@@ -180,6 +180,7 @@ struct	s_data
 	int				specular_light;
 	int				hard_shadows;
 	int				intersec;
+	int				fd;
 };
 
 // Data

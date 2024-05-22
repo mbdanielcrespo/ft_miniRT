@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:57:19 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 17:12:15 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:35:55 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,30 +66,30 @@ int	solve_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy, t_xyz *ip)
 int	intersect_cylinder_shade(t_xyz pos, t_xyz pix_dir, t_cylinder *cy,
 	t_xyz *ip)
 {
-	t_plane	*pl1;
-	t_plane	*pl2;
+	t_plane	pl1;
+	t_plane	pl2;
 	int		ret;
 
 	ret = 0;
-	pl1 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
-	pl2 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
-	pl1->norm_vect = cy->norm_vect;
-	pl1->position = add_v(cy->position,
+	// pl1 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
+	// pl2 = ft_safe_malloc(sizeof(t_plane), data_destroy, NULL);
+	pl1.norm_vect = cy->norm_vect;
+	pl1.position = add_v(cy->position,
 			mult_v(cy->norm_vect, cy->height / 2.0));
-	pl2->norm_vect = mult_v(cy->norm_vect, -1);
-	pl2->position = subtr_v(cy->position,
+	pl2.norm_vect = mult_v(cy->norm_vect, -1);
+	pl2.position = subtr_v(cy->position,
 			mult_v(cy->norm_vect, cy->height / 2.0));
-	if (intersect_plane_shade(pos, pix_dir, pl1, ip)
-		&& within_cylinder_radius(ip, cy, pl1->position))
+	if (intersect_plane_shade(pos, pix_dir, &pl1, ip)
+		&& within_cylinder_radius(ip, cy, pl1.position))
 		ret = 1;
-	if (intersect_plane_shade(pos, pix_dir, pl2, ip)
-		&& within_cylinder_radius(ip, cy, pl2->position))
+	if (intersect_plane_shade(pos, pix_dir, &pl2, ip)
+		&& within_cylinder_radius(ip, cy, pl2.position))
 		ret = 1;
 	if (solve_cylinder_shade(pos, pix_dir, cy, ip) && 
 		within_cylinder_tube(cy, ip))
 		ret = 1;
-	free(pl1);
-	free(pl2);
+	// free(pl1);
+	// free(pl2);
 	return (ret);
 }
 

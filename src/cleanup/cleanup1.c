@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:33:16 by danalmei          #+#    #+#             */
-/*   Updated: 2024/04/28 22:29:55 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:22:30 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	data_destroy(void)
 		free_cylinders(ptr->cylinder);
 		if (ptr->current_line)
 			free(ptr->current_line);
+		close(ptr->fd);
 	}
 	printf("Data destroyed!\n");
 }
