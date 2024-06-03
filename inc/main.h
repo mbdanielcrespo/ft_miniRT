@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/22 12:45:30 by danalmei         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:03:32 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ struct	s_data
 	int				hard_shadows;
 	int				intersec;
 	int				on_base;
+	int				fd;
 };
 
 // Data
