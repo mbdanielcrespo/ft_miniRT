@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/06/03 19:41:39 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:47:59 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,4 @@ void	create_light(char *line, int n_args)
 	ft_fsplit(args);
 	data()->lig = 1;
 	data()->light = lig;
-	printf("New light created\n");
 }
