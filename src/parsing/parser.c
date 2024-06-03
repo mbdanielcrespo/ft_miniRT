@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 21:33:09 by danalmei          #+#    #+#             */
-/*   Updated: 2024/05/20 14:17:31 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:41:39 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	create_ambient(char *line, int n_args)
 		ft_error_destroy("Parsing error, on args!", data_destroy);
 	}
 	ft_fsplit(args);
+	data()->amb = 1;
 	data()->ambient = amb;
 	printf("New ambient created\n");
 }
@@ -83,6 +84,7 @@ void	create_camera(char *line, int n_args)
 		ft_error_destroy("Parsing error, on args!", data_destroy);
 	}
 	ft_fsplit(args);
+	data()->cam = 1;
 	data()->camera = cam;
 	printf("New camera created\n");
 }
@@ -112,6 +114,7 @@ void	create_light(char *line, int n_args)
 		ft_error_destroy("Parsing error on args!", data_destroy);
 	}
 	ft_fsplit(args);
+	data()->lig = 1;
 	data()->light = lig;
 	printf("New light created\n");
 }

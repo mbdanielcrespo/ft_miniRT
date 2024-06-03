@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:21:56 by danalmei          #+#    #+#             */
-/*   Updated: 2024/06/03 17:11:21 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:40:37 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,6 @@ void	fill_data(int fd)
 		data()->current_line = NULL;
 		line = get_next_line(fd);
 	}
+	if (!data()->cam || !data()->lig || !data()->amb)
+		ft_error_destroy("Parsing error!", data_destroy);
 }

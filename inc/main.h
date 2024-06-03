@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:38:13 by danalmei          #+#    #+#             */
-/*   Updated: 2024/06/03 17:03:32 by feden-pe         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:44:55 by feden-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 # define ROT_STEP	0.1	
 # define STEP		2.0
 # define DEFAULT_DL	1
-# define DEFAULT_SL	1
-# define DEFAULT_HS 1
+# define DEFAULT_SL	0
+# define DEFAULT_HS 	0
 # define K_ESC		65307
 # define K_UP		65362
 # define K_DOWN		65364
@@ -182,6 +182,9 @@ struct	s_data
 	int				intersec;
 	int				on_base;
 	int				fd;
+	int				cam;
+	int				lig;
+	int				amb;
 };
 
 // Data
