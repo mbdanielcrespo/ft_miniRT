@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"libft.h": "c",
-		"main.h": "c",
-		"random": "c",
-		"iterator": "c"
-	},
-	"C_Cpp.errorSquiggles": "disabled"
-}
